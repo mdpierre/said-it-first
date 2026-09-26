@@ -9,8 +9,18 @@ every thread. This pipeline digs out what's yours, ranks it by *did this change
 what I think*, has Claude read the candidates, **verifies every quote against
 the source**, and walks you through approving notes one section at a time.
 
-Built on and tested against a real 4,164-conversation archive. See
-[METHOD.md](METHOD.md) for what broke and why each piece exists.
+Built on my own ChatGPT archive first. See [METHOD.md](METHOD.md) for what
+broke and why each piece exists. The reference run, in aggregate (no
+conversation content is in this repo):
+
+| | |
+|---|---|
+| Export | 4,164 conversations over nearly four years; 1,628 with 50+ words from me |
+| Words in my turns | 701,883, of which 234,739 (33%) were pasted, quiz answers or clicked suggestions, and 4,283 were echoes of the assistant |
+| Corpus the models read | ~6.5M tokens with the assistant's turns, ~1M without |
+| Review | 126 conversations read and decided on over about two weeks |
+| Result | idea notes went from 73 to 120; ~330 quotes verified verbatim |
+| Re-audit | the stricter `verify` found 2 quotes in finished notes that ChatGPT had written first |
 
 ```mermaid
 flowchart TD
