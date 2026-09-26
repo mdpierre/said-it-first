@@ -17,16 +17,37 @@ honest*.
 
 ## Provenance
 
-- Quote verbatim, in quotation marks, only when the wording is yours. Keep
-  your typos.
-- Paraphrase without quotation marks. If a note is mostly model-worded, set
-  `source: chatgpt-synthesis` in frontmatter.
-- Cleaned dictation is allowed only when labeled: `**cleaned**`, with the raw
-  wording alongside.
-- A line the assistant said first and you echoed back is labeled
-  `**assistant-coined, echoed**`. It can be kept; it cannot pass as yours.
+- Quotation marks mean **verbatim from your own turn**, typos kept. Nothing
+  else goes inside them.
+- Paraphrase goes without quotation marks.
+- `source` in frontmatter describes the note as a whole: `chatgpt-synthesis`
+  when any of its prose is model-drafted (nearly every archive-derived note),
+  `chatgpt-archive` only when every sentence is your own wording. Line-level
+  provenance is carried by the quotation marks and the labels below.
+- Labels, which `synth verify` recognizes **only in bold** when they sit on
+  the quote's line, up to three lines before it, or on the line after:
+  - `**assistant-coined, echoed**`: the assistant said it first and you
+    repeated it. Kept for the record; never presented as your idea.
+  - `**cleaned**`: dictation artifacts fixed. Put the raw wording alongside.
+  - `**paraphrase**`: reworded, with your actual wording alongside.
+  - `**pasted**` / `**chip**`: text from someone else or a clicked
+    suggestion, quoted only to show what you were responding to.
+  - `**unverifiable**`: the assistant turn that would show who said it first
+    is missing or cut off in the export. Verify cannot detect this case; you
+    must add the label yourself.
+- `synth verify` checks quotes of 40+ characters only. Check shorter quotes
+  against the transcript by hand.
+- The **profile is never a source**. Its wording is today's description of
+  you; every "was" must be found in the archive, in your words, or reported
+  as unsupported.
 - Every note cites the conversations it came from:
   `*Sources:* [[2024-03-02-rethinking-the-founder-plan]]`
+- **Dates.** Transcripts carry the date a conversation started. For a turn
+  in a multi-day conversation, use `create_time` and `span_hours` from
+  `index.json`, or write "conversation started <date>".
+- **Out-of-scope details** (per the profile) that are part of a cause you
+  state: record the cause in general terms ("a view absorbed growing up")
+  and flag the specific for the owner. Never drop a cause silently.
 
 ## One note per idea, permanently
 
@@ -43,8 +64,8 @@ and what moved it.
 ---
 position-since: 2024-03
 stability: core | working | provisional
-supersedes: 2023-11
-source: chatgpt-archive          # or chatgpt-synthesis if model-worded
+supersedes: 2023-11            # or before-2024-03 / unknown when the "was" has no start date
+source: chatgpt-synthesis      # chatgpt-archive only if every sentence is yours
 ---
 ```
 
@@ -69,6 +90,22 @@ source: chatgpt-archive          # or chatgpt-synthesis if model-worded
 
 *Sources:* [[...]], [[...]]
 ```
+
+## When the archive disagrees with the profile
+
+If the newest evidence in the archive contradicts the current position the
+profile gives (a relapse, a reversal), do not rewrite the current position
+from the archive, and do not bury the contradiction in the history. Add:
+
+```markdown
+## Open: archive vs profile
+
+The profile says <X> since <date>. On <date> the archive shows <Y>:
+> "<verbatim>" [[...]]
+The archive ends <export date>. Owner to confirm which is current.
+```
+
+The archive is a trailing indicator; only the owner can settle this.
 
 ## Stability
 

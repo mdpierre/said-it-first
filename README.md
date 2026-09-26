@@ -29,9 +29,10 @@ export  ->  parse  ->  voice  ->  rank  ->  read (Claude)  ->  verify  ->  you a
   not length.
 - **Deltas, not snapshots.** Notes record *Was / Now / Because*, so you can see
   what you thought in 2023, what you think now, and what changed it.
-- **Verified.** `synth verify` catches paraphrase in quotation marks and lines
-  the assistant coined that you echoed back. The model's own reports never
-  flagged either.
+- **Verified.** `synth verify` catches paraphrase in quotation marks, lines
+  the assistant coined that you echoed back (even with your words in front),
+  and quotes lifted from pastes or clicked suggestions. The model's own
+  reports never flagged these.
 - **Local, stdlib-only Python.** No dependencies. The scripts never touch the
   network.
 
@@ -42,7 +43,7 @@ the reading stages.
 
 ```bash
 git clone <this repo> && cd chat-synthesis
-python3 -m unittest discover tests          # 16 tests on a synthetic export
+python3 -m unittest discover tests          # tests on a synthetic export
 python3 -m synth run examples/sample-export # try the scripts on fake data
 ```
 

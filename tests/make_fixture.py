@@ -167,6 +167,18 @@ CONVERSATIONS = [
             "second list is the one I talk about at dinner", "2025-07-01", 9),
         (A, "The first list is about expression; the second is about approval.", "2025-07-01", 9),
     ]),
+    # owner says a line first, assistant quotes it back, owner repeats it:
+    # still the owner's line, must not be flagged as an echo
+    convo("Said it first", [
+        (U, "The line I keep coming back to is that I would rather be trusted "
+            "with hard problems than be the one who owns them. I wrote that on "
+            "a napkin last month and it still feels true to me.", "2025-07-15", 21),
+        (A, "You wrote: I would rather be trusted with hard problems than be the "
+            "one who owns them. What makes that feel true?", "2025-07-15", 21),
+        (U, "I would rather be trusted with hard problems than be the one who "
+            "owns them, because ownership is mostly admin to me.", "2025-07-15", 21),
+        (A, "That makes sense.", "2025-07-15", 21),
+    ]),
     # trivial: under the word floor, skipped
     convo("Quick question", [(U, "What's 15% of 80?", "2025-08-01", 12), (A, "12.", "2025-08-01", 12)]),
 ]

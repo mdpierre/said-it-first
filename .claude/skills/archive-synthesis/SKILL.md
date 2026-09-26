@@ -47,7 +47,7 @@ classed as pasted, lower `AUTHORED_FLOOR` in `synth/parse.py` and re-run.
 
 Dispatch both, each with the resolved paths in the prompt:
 - `shortlist-reviewer`: replaces SHORTLIST.md with a judged, sectioned list
-  plus RANKING_NOTES.md.
+  plus _RANKING_NOTES.md.
 - `delta-reconstructor`: writes staged delta files plus `_REPORT.md`.
 
 Both need the voice corpus in context. Use the longest-context model
@@ -98,7 +98,7 @@ after its date.
 
 - Every new note cites a source conversation (grep for notes without
   `*Sources:*`).
-- If RANKING_NOTES.md recommends weight or marker changes, show the owner the
+- If _RANKING_NOTES.md recommends weight or marker changes, show the owner the
   diff to `chat-synthesis.toml`, apply on approval, and re-run rank to
   `--out` a temp path to compare. Never overwrite a shortlist mid-review.
 

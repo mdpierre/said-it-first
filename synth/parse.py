@@ -386,10 +386,15 @@ def authorship(user_texts):
     words = dict.fromkeys(counts, 0)
     labels = []
     for text in user_texts:
-        lab = classify_turn(text)
-        n = len(WORD.findall(text))
+        # Code pasted inside a message is not prose you wrote. Classify and
+        # credit the prose; the code's words count as pasted.
+        prose = CODE_FENCE.sub(" ", text)
+        code_n = len(WORD.findall(text)) - len(WORD.findall(prose))
+        lab = classify_turn(prose)
+        n = len(WORD.findall(prose))
         counts[lab] += 1
         words[lab] += n
+        words["pasted"] += code_n
         labels.append((lab, n))
     mine = [n for lab, n in labels if lab in ("authored", "own_voice")]
     return {

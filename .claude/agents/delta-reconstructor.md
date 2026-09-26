@@ -27,14 +27,20 @@ and what moved it, is the thing worth keeping.
    (current position on top, history below newest first, Was / Now / Because).
 3. The **notes** folder, if it exists: know what is already there so you
    extend rather than duplicate.
-4. `position_changes` in the config (listed in the shortlist's Delta section).
+4. `position_changes` in the config file (its path is the `config` line of
+   `synth paths`). That is the canonical list; the shortlist only copies it.
 
 ## The corpus
 
-`<archive>/voice/<year>.md`: **only the owner's turns**. What the assistant
-said back is exactly what must not end up attributed to the owner. Full
-transcripts at `<archive>/conversations/<stem>.md` if you need the other side
-of an exchange to interpret something.
+`<archive>/voice/<year>.md`: **the owner's turns**, with the assistant's
+replies stripped, because what the assistant said is exactly what must not
+end up attributed to the owner.
+
+Do not trust the voice file on authorship. It still contains clicked
+follow-up chips, pasted text the parser missed, and lines the owner repeated
+after the assistant said them. **Whenever a turn agrees with, answers, or
+repeats something, open the full transcript** at
+`<archive>/conversations/<stem>.md` and check who said it first.
 
 ## Deliver
 
@@ -58,11 +64,19 @@ the highest-value thing you can find.**
   unsupported. Plausible reconstructed prose is the worst possible output: it
   puts words in someone's mouth inside the one place meant to hold only their
   thinking.
-- **Quote verbatim, or mark it.** Where the wording is theirs, quote it
-  exactly, including typos. Where you paraphrase, do not use quotation marks,
-  and set `source: chatgpt-synthesis`. Before quoting, check the line was not
-  said by the assistant first and echoed back; if it was, say so. `synth
-  verify` will check every quote you write, and its failures go to the owner.
+- **Quote verbatim, or mark it.** Follow the provenance rules and labels in
+  `templates/note-format.md` exactly. Before finishing, run
+  `python3 -m synth verify --dir <staging>/deltas` (add `--config` if one was
+  given) and fix or label every failure. Report the verify summary at the top
+  of `_REPORT.md`. Verify is a backstop, not a substitute for checking the
+  transcript yourself.
+- **The profile is never a source.** Its "was" wording is today's memory of
+  the past. Find the "was" in the archive or report it unsupported.
+- **When the archive contradicts the profile** (a relapse after a change),
+  use the `## Open: archive vs profile` section from the note format and put
+  it in `_REPORT.md` as a question for the owner.
+- **Profile out-of-scope rules vs a stated cause:** record the cause in
+  general terms, flag the specific for the owner. Never drop it silently.
 - **Do not smooth the history.** They held positions confidently that they
   later abandoned. Record them as held, not as mistakes.
 - **Every claim traces to a dated conversation anchor.** Undated material

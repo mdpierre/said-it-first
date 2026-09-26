@@ -108,6 +108,22 @@ verbatim in your turns, said by the assistant first and echoed back, or
 silently cleaned up. It runs on every batch before review and on notes
 before they are final. It exits non-zero on any failure.
 
+### 3b. Then the safety net turned out to have a hole
+
+When the repo's agents were dry-run on a synthetic export, the delta agent
+reported that `verify` itself missed echoes: it compared only a quote's
+opening words, so *"Yes exactly, <the assistant's phrase>"* passed as the
+owner's line. Re-running the fixed checker over the reference run's finished
+notes found **two quotes attributed to the owner that the assistant had
+written first**. Both had passed the original check.
+
+**Fix:** echoes are now detected as any 7-word run the assistant said
+earlier in the same conversation, anywhere in the quote; quotes from pasted
+text or clicked suggestions are flagged; labels only count in bold, so a note
+that says "none cleaned" can't accidentally excuse a paraphrase. Every one of
+these has a regression test. The lesson generalizes: **test the checker the
+same way you test what it checks.**
+
 ### 4. A silent bug dropped a quarter of the corpus
 
 Frontmatter was stripped with `body.split("\n---\n", 2)[-1]`. Any conversation
@@ -173,6 +189,10 @@ not thinking. Low yield from a section is a result, not a failure.
   `synth stats` on yours first.
 - Topic routing needs a model or embedding pass to go much past a third of
   conversations.
+- Echoed words still count as authored in the *score* (verify catches them
+  in quotes, rank doesn't). A user turn that repeats 8+ words of the
+  preceding assistant turn could be scored as `echoed`.
+- `verify` checks quotes of 40+ characters only.
 - ChatGPT exports only, for now. The pipeline is shaped for other sources
   (a sibling adapter for a Discord export was built on the same pattern); a
   new source needs only its own `parse`.

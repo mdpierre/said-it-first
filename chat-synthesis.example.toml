@@ -2,8 +2,16 @@
 # Every key is optional; anything left out uses the default in synth/config.py.
 # Paths are relative to this file.
 
+# Top-level keys MUST come before the first [table] header. In TOML, a key
+# written below [rank] belongs to rank, and would be silently ignored here.
+
 # Used in the headers of generated files.
 owner = "you"
+
+# Topics where your thinking changed. Old conversations in them become delta
+# candidates: the "was" side of a change, kept for the record, never treated
+# as what you believe now.
+volatile = []
 
 [paths]
 archive   = "workspace/archive"      # parsed conversations, index.json, voice/
@@ -35,11 +43,6 @@ top = 60
 # [topics.running-a-business]
 # all_of = ['\b(business|startup|company)\b', '\b(client\w*|revenue|pricing|sales)\b']
 # replaces = ["career"]
-
-# Topics where your thinking changed. Old conversations in them become delta
-# candidates: the "was" side of a change, kept for the record, never treated
-# as what you believe now.
-volatile = []
 
 # Dated position changes you already know about. The more you list, the better
 # the delta flags. Find more with the delta-reconstructor agent.

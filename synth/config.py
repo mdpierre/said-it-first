@@ -80,8 +80,8 @@ DEFAULTS = {
     # `\bapplicat\b` does not match "application".
     "topics": {
         "career": {"pattern": r"\b(job|jobs|resume|interview\w*|recruit\w*|"
-                              r"applicat\w*|salary|linkedin|career|promotion|manager)\b"},
-        "business": {"pattern": r"\b(client\w*|business|startup|revenue|pricing|"
+                              r"applicat\w*|salary|linkedin|career|promot\w*|manager)\b"},
+        "business": {"pattern": r"\b(client\w*|business|startup|compan\w*|revenue|pricing|"
                                 r"offer\w*|customer\w*|founder|market\w*|sales)\b"},
         "creative": {"pattern": r"\b(writ\w*|music|photo\w*|design\w*|art|"
                                 r"draw\w*|film\w*|creative|creativity)\b"},
@@ -115,6 +115,24 @@ def _merge(base, over):
     return base
 
 
+def _unknown(over, base, where=""):
+    """Keys in the user's file that the defaults don't define (likely typos or
+    keys placed under the wrong [table] header)."""
+    out = []
+    for k, v in over.items():
+        here = f"{where}{k}"
+        if k not in base:
+            out.append(here)
+        elif k == "topics" and isinstance(v, dict):
+            for name, spec in v.items():
+                for sk in (spec if isinstance(spec, dict) else {}):
+                    if sk not in ("pattern", "all_of", "replaces"):
+                        out.append(f"topics.{name}.{sk}")
+        elif isinstance(v, dict) and isinstance(base[k], dict):
+            out += _unknown(v, base[k], here + ".")
+    return out
+
+
 def load(path=None):
     """Return the merged config dict. Paths are resolved against the config's dir."""
     cfg = copy.deepcopy(DEFAULTS)
@@ -124,7 +142,15 @@ def load(path=None):
         if not os.path.exists(chosen):
             sys.exit(f"config not found: {chosen}")
         with open(chosen, "rb") as fh:
-            _merge(cfg, tomllib.load(fh))
+            user = tomllib.load(fh)
+        for key in _unknown(user, DEFAULTS):
+            hint = ""
+            top = key.rsplit(".", 1)[-1]
+            if "." in key and top in DEFAULTS:
+                hint = (f" (did you mean top-level `{top}`? Move it above the "
+                        f"first [table] header)")
+            print(f"WARNING  unknown config key `{key}`, ignored{hint}", file=sys.stderr)
+        _merge(cfg, user)
         base_dir = os.path.dirname(os.path.abspath(chosen))
     cfg["_source"] = os.path.abspath(chosen) if chosen else "(built-in defaults)"
     for k, v in cfg["paths"].items():

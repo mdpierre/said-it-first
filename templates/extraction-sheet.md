@@ -1,7 +1,7 @@
 # <Section> - extraction review
 
-*Read directly <date>. <N> conversations, ~<W> of the owner's words.*
-*verify: <Q> quotes checked, <U> unsourced, <E> assistant-coined.* (fill in from `synth verify`)
+*Read directly <date>. <N> conversations, ~<W> of the owner's authored words (each distinct turn once; chips and pastes excluded).*
+*verify: <Q> quotes checked, <N> not verbatim, <E> echoed, <P> pasted/clicked, <L> labeled.* (copy from `synth verify`)
 
 **How to use this:** tick what should become a note, strike what shouldn't,
 correct any framing that's wrong. The framing line is the reviewer's read and
@@ -12,7 +12,10 @@ Notes get written only from what survives.
 
 ---
 
-## 1. <working title>  - [ ] new  - [ ] merge into `<note>`  - [ ] delta  - [ ] strike
+## 1. <working title>
+
+**Where:** [ ] new note  [ ] merge into `<note>`  [ ] fold into staged draft `<file>`  [ ] strike
+**Shape:** [ ] position  [ ] change (Was / Now / Because)
 
 **Framing:** <one line: what the idea is>
 

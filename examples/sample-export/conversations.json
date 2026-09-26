@@ -1113,6 +1113,104 @@
   }
  },
  {
+  "title": "Said it first",
+  "create_time": 1752627600.0,
+  "conversation_id": "cccdb9d0-d314-53ce-b389-e2d4d9d2eaaa",
+  "current_node": "4222b7af-6812-599e-9427-ea4b72ee81d7",
+  "mapping": {
+   "aae2f9b4-5c91-5c22-8ab2-e08667762f13": {
+    "id": "aae2f9b4-5c91-5c22-8ab2-e08667762f13",
+    "message": null,
+    "parent": null,
+    "children": [
+     "df3f0a0d-dffe-53d6-a285-6eb2889a7d6e"
+    ]
+   },
+   "df3f0a0d-dffe-53d6-a285-6eb2889a7d6e": {
+    "id": "df3f0a0d-dffe-53d6-a285-6eb2889a7d6e",
+    "parent": "aae2f9b4-5c91-5c22-8ab2-e08667762f13",
+    "children": [
+     "373f1704-d74b-5ffd-9b5b-44bc0bb2365c"
+    ],
+    "message": {
+     "id": "df3f0a0d-dffe-53d6-a285-6eb2889a7d6e",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1752627600.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "The line I keep coming back to is that I would rather be trusted with hard problems than be the one who owns them. I wrote that on a napkin last month and it still feels true to me."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "373f1704-d74b-5ffd-9b5b-44bc0bb2365c": {
+    "id": "373f1704-d74b-5ffd-9b5b-44bc0bb2365c",
+    "parent": "df3f0a0d-dffe-53d6-a285-6eb2889a7d6e",
+    "children": [
+     "12cf364c-d1c0-5572-af2f-c0554a2041ab"
+    ],
+    "message": {
+     "id": "373f1704-d74b-5ffd-9b5b-44bc0bb2365c",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1752627660.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "You wrote: I would rather be trusted with hard problems than be the one who owns them. What makes that feel true?"
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "12cf364c-d1c0-5572-af2f-c0554a2041ab": {
+    "id": "12cf364c-d1c0-5572-af2f-c0554a2041ab",
+    "parent": "373f1704-d74b-5ffd-9b5b-44bc0bb2365c",
+    "children": [
+     "4222b7af-6812-599e-9427-ea4b72ee81d7"
+    ],
+    "message": {
+     "id": "12cf364c-d1c0-5572-af2f-c0554a2041ab",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1752627720.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "I would rather be trusted with hard problems than be the one who owns them, because ownership is mostly admin to me."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "4222b7af-6812-599e-9427-ea4b72ee81d7": {
+    "id": "4222b7af-6812-599e-9427-ea4b72ee81d7",
+    "parent": "12cf364c-d1c0-5572-af2f-c0554a2041ab",
+    "children": [],
+    "message": {
+     "id": "4222b7af-6812-599e-9427-ea4b72ee81d7",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1752627780.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "That makes sense."
+      ]
+     },
+     "metadata": {}
+    }
+   }
+  }
+ },
+ {
   "title": "Quick question",
   "create_time": 1754064000.0,
   "conversation_id": "992d5bf7-9e8e-5a96-a7dd-b8d487ac565b",

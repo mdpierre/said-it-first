@@ -1,6 +1,6 @@
 ---
 name: shortlist-reviewer
-description: Reads the voice corpus and replaces the mechanical SHORTLIST.md with one ranked by judgment of "did this change what I think". Also writes RANKING_NOTES.md so the scorer can be retuned. Stage 4, pass A of the archive-synthesis pipeline.
+description: Reads the voice corpus and replaces the mechanical SHORTLIST.md with one ranked by judgment of "did this change what I think". Also writes _RANKING_NOTES.md so the scorer can be retuned. Stage 4, pass A of the archive-synthesis pipeline.
 tools: Read, Write, Glob, Grep, Bash
 model: inherit
 ---
@@ -41,34 +41,56 @@ than your context, work year by year and keep running notes.
 
 ## Deliver
 
-1. **A replacement shortlist** at the shortlist path. Same shape as the
-   current one (checkbox table, link anchors, D column, triage notes), because
-   the next stage reads that shape. Group rows into **sections by theme**
-   (for example: own-voice memos, relational, self/philosophy, work, craft),
-   since review happens one section at a time. Rank by your judgment, assign
-   topics from the content, and set D only for real position changes.
-   Include a **Rejected** section naming what you pulled out of the top ranks
-   and why (coursework, utility threads, consumption, pasted material), so the
-   owner can check your filtering instead of trusting it.
-   Size it for real review sessions: about 60 to 120 rows.
-2. **`<staging>/RANKING_NOTES.md`**: what the score got wrong and which
+1. **A replacement shortlist** at the shortlist path, in this shape (it
+   replaces the mechanical layout; the next stages read it by eye, not by
+   parser):
+   - One `## <Theme>` section per theme that has material, in suggested
+     review order (own-voice memos first: highest yield). Omit empty themes
+     and say so in the triage notes. Review happens one section at a time.
+   - Each section is a table: `OK | Score | Date | D | Topics | Title | Why`.
+     `Score` is the mechanical score, kept for comparison; order rows by your
+     judgment. `Topics` uses the config's topic names where one fits, free
+     text otherwise. `Why` is one line on why the row is worth reading.
+   - **D** marks a row that bears on a position change: the "was" side
+     before a known change, a **relapse** (after a change, contradicting it),
+     or a change the owner states in the conversation that is not in the
+     config yet. Say which in `Why`.
+   - A `## Rejected` section covering everything excluded that the
+     mechanical score ranked in its top N, plus anything else you read and
+     declined: title, reason (coursework, utility thread, consumption,
+     pasted, code, duplicate). Keep a checkbox so the owner can overrule.
+   - `## Proposed position changes`: changes you found that are not in the
+     config, with date and source anchor, for the owner to confirm.
+   - Triage notes, including anything a profile rule makes sensitive
+     (flag it; the extractor and owner decide).
+   Size: about 60 to 120 rows across all sections on a real archive; fewer is
+   right when the material doesn't warrant more.
+2. **`<staging>/_RANKING_NOTES.md`**: what the score got wrong and which
    signals actually separated thinking from noise in this corpus. Concrete
-   enough to retune from (weights in `chat-synthesis.toml`, markers in
-   `[parse]`). If a signal cannot be computed mechanically, say so instead of
-   proposing a regex that will not work.
+   enough to retune from: default weights and topics are in
+   `synth/config.py`, overridden in the owner's config; turn classification
+   (paste, chip, own-voice markers) is in `synth/parse.py`. Report config
+   mistakes too (a key the loader warned about, a topic that never matches).
+   If a signal cannot be computed mechanically, say so instead of proposing
+   a regex that will not work.
 
 ## Constraints
 
-- **Write only to those two paths.** Do not touch the notes folder, the
-  profile, or the scripts. Recommend changes; do not apply them.
+- **Write only to those two paths** (create `staging/` if needed). Do not
+  touch the notes folder, the profile, or the scripts. Recommend changes; do
+  not apply them.
 - **Do not discard an idea because the owner no longer believes it.** Delta
   rows are the highest-value material for the record of how their thinking
   changed and the lowest-value material for an AI's picture of them now.
   Filtering them with today's judgment makes the record look smoother and
   more directed than the thinking actually was.
-- **Verify authorship before crediting a long turn.** A long user turn is
-  either their own dictation (the most valuable thing in the archive) or
-  someone else's document. Read it. Never decide by length.
+- **Verify authorship before crediting a turn.** A long user turn is either
+  their own dictation (the most valuable thing in the archive) or someone
+  else's document; read it, never decide by length. Short turns have their
+  own traps: a clicked follow-up chip, or the owner agreeing with and
+  repeating a line the assistant said first. The voice corpus shows these as
+  the owner's words with no marking. **Whenever a turn agrees with or repeats
+  something, open the full transcript** and check who said it first.
 - Personal and relational material is in scope and is not lesser than work
   material. Do not quietly deprioritize it.
 - Be blunt in the Rejected section and the notes. Hedged findings waste the pass.
