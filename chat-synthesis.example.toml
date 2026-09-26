@@ -1,0 +1,49 @@
+# chat-synthesis config. Copy to chat-synthesis.toml (gitignored) and edit.
+# Every key is optional; anything left out uses the default in synth/config.py.
+# Paths are relative to this file.
+
+# Used in the headers of generated files.
+owner = "you"
+
+[paths]
+archive   = "workspace/archive"      # parsed conversations, index.json, voice/
+staging   = "workspace/staging"      # model drafts wait here for your review
+shortlist = "workspace/SHORTLIST.md"
+notes     = "workspace/notes"        # approved notes land here (point at your vault)
+profile   = "profile.md"             # who you are NOW; the agents read it first
+
+[output]
+link_style = "wikilink"              # or "markdown" if you don't use Obsidian/Logseq
+
+[parse]
+min_user_words = 50
+# Platforms you pasted from that the defaults don't know (your school's LMS,
+# your employer's intranet). Regex fragments, case-insensitive.
+extra_paste_markers = []
+extra_coursework_markers = []
+# How YOU introduce your own dictated notes, if not covered by the defaults
+# ("voice memo", "voice note", "here's the transcript", "my journal"...).
+extra_own_voice_preambles = []
+
+[rank]
+top = 60
+
+# Topics replace the defaults entirely when you define any. Make them about
+# your life. Each needs 2 distinct matching words to be claimed.
+# [topics.career]
+# pattern = '\b(job|jobs|resume|interview\w*|manager|promotion|career)\b'
+# [topics.running-a-business]
+# all_of = ['\b(business|startup|company)\b', '\b(client\w*|revenue|pricing|sales)\b']
+# replaces = ["career"]
+
+# Topics where your thinking changed. Old conversations in them become delta
+# candidates: the "was" side of a change, kept for the record, never treated
+# as what you believe now.
+volatile = []
+
+# Dated position changes you already know about. The more you list, the better
+# the delta flags. Find more with the delta-reconstructor agent.
+# [[position_changes]]
+# date  = "2024-03-10"
+# topic = "career"
+# what  = "stopped aiming at founding a company; technical lead track instead"

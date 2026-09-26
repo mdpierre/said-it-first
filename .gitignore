@@ -1,0 +1,10 @@
+# personal: never commit
+workspace/
+chat-synthesis.toml
+profile.md
+*.zip
+conversations-*.json
+
+__pycache__/
+*.pyc
+.DS_Store

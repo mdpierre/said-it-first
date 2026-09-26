@@ -1,0 +1,1171 @@
+[
+ {
+  "title": "Rethinking the founder plan",
+  "create_time": 1709431200.0,
+  "conversation_id": "14eda9f6-3a9a-57c0-a37a-2646a7069f32",
+  "current_node": "14b0eabe-3b09-5085-95f2-64d77f6b40bf",
+  "mapping": {
+   "b064c4da-7212-5085-a614-7af5d3cdd795": {
+    "id": "b064c4da-7212-5085-a614-7af5d3cdd795",
+    "message": null,
+    "parent": null,
+    "children": [
+     "4dc0060c-dbde-5ffd-834d-c72a784a3302"
+    ]
+   },
+   "4dc0060c-dbde-5ffd-834d-c72a784a3302": {
+    "id": "4dc0060c-dbde-5ffd-834d-c72a784a3302",
+    "parent": "b064c4da-7212-5085-a614-7af5d3cdd795",
+    "children": [
+     "95ea2988-ffe2-5732-b689-11f6fc64bb2b"
+    ],
+    "message": {
+     "id": "4dc0060c-dbde-5ffd-834d-c72a784a3302",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1709431200.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "I keep telling myself I want to start my own company, but when I actually picture the day to day I don't want the sales calls or the hiring. I think what I like is being the person who figures out how the thing works and then makes it run. My dad always said real work means being your own boss and I think I absorbed that without ever checking whether it fit me."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "95ea2988-ffe2-5732-b689-11f6fc64bb2b": {
+    "id": "95ea2988-ffe2-5732-b689-11f6fc64bb2b",
+    "parent": "4dc0060c-dbde-5ffd-834d-c72a784a3302",
+    "children": [
+     "915411dc-e8b1-548c-b4df-7da38a56dfc5"
+    ],
+    "message": {
+     "id": "95ea2988-ffe2-5732-b689-11f6fc64bb2b",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1709431260.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "What do you like about the work itself?"
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "915411dc-e8b1-548c-b4df-7da38a56dfc5": {
+    "id": "915411dc-e8b1-548c-b4df-7da38a56dfc5",
+    "parent": "95ea2988-ffe2-5732-b689-11f6fc64bb2b",
+    "children": [
+     "949d3532-b7a9-5f78-9a47-82a7314d1bf9"
+    ],
+    "message": {
+     "id": "915411dc-e8b1-548c-b4df-7da38a56dfc5",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1709474520.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Okay I slept on it. I think the honest version is that I like hard problems and I like being trusted with them, and none of that requires owning the business. I'm going to stop pitching myself as a future founder in interviews because I don't believe it and people can tell."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "949d3532-b7a9-5f78-9a47-82a7314d1bf9": {
+    "id": "949d3532-b7a9-5f78-9a47-82a7314d1bf9",
+    "parent": "915411dc-e8b1-548c-b4df-7da38a56dfc5",
+    "children": [
+     "586bcc2c-1378-5aa3-9e37-5f97e558457c"
+    ],
+    "message": {
+     "id": "949d3532-b7a9-5f78-9a47-82a7314d1bf9",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1709474580.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "That's a clear distinction."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "586bcc2c-1378-5aa3-9e37-5f97e558457c": {
+    "id": "586bcc2c-1378-5aa3-9e37-5f97e558457c",
+    "parent": "949d3532-b7a9-5f78-9a47-82a7314d1bf9",
+    "children": [
+     "14b0eabe-3b09-5085-95f2-64d77f6b40bf"
+    ],
+    "message": {
+     "id": "586bcc2c-1378-5aa3-9e37-5f97e558457c",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1710108240.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Coming back to this a week later. I told my manager I want the technical lead track, not the management track, and it felt right saying it out loud. My fear was that I'd be settling, but I think I was confusing ambition with a specific costume of ambition."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "14b0eabe-3b09-5085-95f2-64d77f6b40bf": {
+    "id": "14b0eabe-3b09-5085-95f2-64d77f6b40bf",
+    "parent": "586bcc2c-1378-5aa3-9e37-5f97e558457c",
+    "children": [],
+    "message": {
+     "id": "14b0eabe-3b09-5085-95f2-64d77f6b40bf",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1710108300.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "How did your manager respond?"
+      ]
+     },
+     "metadata": {}
+    }
+   }
+  }
+ },
+ {
+  "title": "Branch \u00b7 Rethinking the founder plan",
+  "create_time": 1709564400.0,
+  "conversation_id": "f3e01727-e171-5559-814f-e2a120ad1269",
+  "current_node": "6e7dbcf1-6038-55ab-84ea-47ca9c0a98d6",
+  "mapping": {
+   "ff39007a-4e2d-5cc3-82fa-042aaaf20ef0": {
+    "id": "ff39007a-4e2d-5cc3-82fa-042aaaf20ef0",
+    "message": null,
+    "parent": null,
+    "children": [
+     "342aae22-2316-5295-bea4-ab6de9cebcfd"
+    ]
+   },
+   "342aae22-2316-5295-bea4-ab6de9cebcfd": {
+    "id": "342aae22-2316-5295-bea4-ab6de9cebcfd",
+    "parent": "ff39007a-4e2d-5cc3-82fa-042aaaf20ef0",
+    "children": [
+     "6e7dbcf1-6038-55ab-84ea-47ca9c0a98d6"
+    ],
+    "message": {
+     "id": "342aae22-2316-5295-bea4-ab6de9cebcfd",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1709564400.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "I keep telling myself I want to start my own company, but when I actually picture the day to day I don't want the sales calls or the hiring. I think what I like is being the person who figures out how the thing works and then makes it run. My dad always said real work means being your own boss and I think I absorbed that without ever checking whether it fit me."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "6e7dbcf1-6038-55ab-84ea-47ca9c0a98d6": {
+    "id": "6e7dbcf1-6038-55ab-84ea-47ca9c0a98d6",
+    "parent": "342aae22-2316-5295-bea4-ab6de9cebcfd",
+    "children": [],
+    "message": {
+     "id": "6e7dbcf1-6038-55ab-84ea-47ca9c0a98d6",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1709564460.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Say more."
+      ]
+     },
+     "metadata": {}
+    }
+   }
+  }
+ },
+ {
+  "title": "Walk home thoughts",
+  "create_time": 1736985600.0,
+  "conversation_id": "01fee4db-9487-56be-bec1-18f1046ab414",
+  "current_node": "6d585fbb-7c25-583c-9ee0-a4b49e7de1f3",
+  "mapping": {
+   "408ca0e6-1c50-546a-80d0-dce7336daeda": {
+    "id": "408ca0e6-1c50-546a-80d0-dce7336daeda",
+    "message": null,
+    "parent": null,
+    "children": [
+     "94527448-c359-535d-83b7-17e782e43de2"
+    ]
+   },
+   "94527448-c359-535d-83b7-17e782e43de2": {
+    "id": "94527448-c359-535d-83b7-17e782e43de2",
+    "parent": "408ca0e6-1c50-546a-80d0-dce7336daeda",
+    "children": [
+     "6a209ddc-35bd-58bd-85b4-f0ed4ed4b5cb"
+    ],
+    "message": {
+     "id": "94527448-c359-535d-83b7-17e782e43de2",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1736985600.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "here's my voice memo from the walk, can you synthesize it\n\nSo yeah I was walking home and I realized I um I basically never let myself want things out loud, like I just kind of decide ahead of time that I don't care so that it can't hurt. And honestly I think I've been doing that since I was a kid, you know, because it was easier to be the easy one in the house. I mean I'm not mad about it, it's just like I notice it now. And the thing is I actually do want stuff, I want to make things that are mine and I want people to see them, and I'm so used to saying it doesn't matter that I believe it for a second. So yeah I was walking home and I realized I um I basically never let myself want things out loud, like I just kind of decide ahead of time that I don't care so that it can't hurt. And honestly I think I've been doing that since I was a kid, you know, because it was easier to be the easy one in the house. I mean I'm not mad about it, it's just like I notice it now. And the thing is I actually do want stuff, I want to make things that are mine and I want people to see them, and I'm so used to saying it doesn't matter that I believe it for a second. So yeah I was walking home and I realized I um I basically never let myself want things out loud, like I just kind of decide ahead of time that I don't care so that it can't hurt. And honestly I think I've been doing that since I was a kid, you know, because it was easier to be the easy one in the house. I mean I'm not mad about it, it's just like I notice it now. And the thing is I actually do want stuff, I want to make things that are mine and I want people to see them, and I'm so used to saying it doesn't matter that I believe it for a second. "
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "6a209ddc-35bd-58bd-85b4-f0ed4ed4b5cb": {
+    "id": "6a209ddc-35bd-58bd-85b4-f0ed4ed4b5cb",
+    "parent": "94527448-c359-535d-83b7-17e782e43de2",
+    "children": [
+     "6d585fbb-7c25-583c-9ee0-a4b49e7de1f3"
+    ],
+    "message": {
+     "id": "6a209ddc-35bd-58bd-85b4-f0ed4ed4b5cb",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1736985660.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Here's a synthesis of your memo..."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "6d585fbb-7c25-583c-9ee0-a4b49e7de1f3": {
+    "id": "6d585fbb-7c25-583c-9ee0-a4b49e7de1f3",
+    "parent": "6a209ddc-35bd-58bd-85b4-f0ed4ed4b5cb",
+    "children": [],
+    "message": {
+     "id": "6d585fbb-7c25-583c-9ee0-a4b49e7de1f3",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1736985720.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "That's right. I want to stop pre-deciding I don't care."
+      ]
+     },
+     "metadata": {}
+    }
+   }
+  }
+ },
+ {
+  "title": "Quarterly report summary",
+  "create_time": 1738436400.0,
+  "conversation_id": "80c08361-560d-5b41-90fc-6884d8591a2d",
+  "current_node": "50336222-3363-59d1-bcef-3ca389e5f6da",
+  "mapping": {
+   "fb97b0b8-3412-5592-9710-c4267f8ecc06": {
+    "id": "fb97b0b8-3412-5592-9710-c4267f8ecc06",
+    "message": null,
+    "parent": null,
+    "children": [
+     "3adc070b-0a0f-51e2-9a78-27fbe7e1abab"
+    ]
+   },
+   "3adc070b-0a0f-51e2-9a78-27fbe7e1abab": {
+    "id": "3adc070b-0a0f-51e2-9a78-27fbe7e1abab",
+    "parent": "fb97b0b8-3412-5592-9710-c4267f8ecc06",
+    "children": [
+     "50336222-3363-59d1-bcef-3ca389e5f6da"
+    ],
+    "message": {
+     "id": "3adc070b-0a0f-51e2-9a78-27fbe7e1abab",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1738436400.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Summarize this\n\nThe quarterly report indicates that regional revenue increased by eight percent year over year, driven primarily by expansion in the enterprise segment. Operating margins remained stable despite increased investment in research and development. The board approved a revised capital allocation framework that prioritizes debt reduction over share repurchases through the end of the fiscal year. Analysts expect continued headwinds in the consumer division as discretionary spending softens. The quarterly report indicates that regional revenue increased by eight percent year over year, driven primarily by expansion in the enterprise segment. Operating margins remained stable despite increased investment in research and development. The board approved a revised capital allocation framework that prioritizes debt reduction over share repurchases through the end of the fiscal year. Analysts expect continued headwinds in the consumer division as discretionary spending softens. The quarterly report indicates that regional revenue increased by eight percent year over year, driven primarily by expansion in the enterprise segment. Operating margins remained stable despite increased investment in research and development. The board approved a revised capital allocation framework that prioritizes debt reduction over share repurchases through the end of the fiscal year. Analysts expect continued headwinds in the consumer division as discretionary spending softens. The quarterly report indicates that regional revenue increased by eight percent year over year, driven primarily by expansion in the enterprise segment. Operating margins remained stable despite increased investment in research and development. The board approved a revised capital allocation framework that prioritizes debt reduction over share repurchases through the end of the fiscal year. Analysts expect continued headwinds in the consumer division as discretionary spending softens. The quarterly report indicates that regional revenue increased by eight percent year over year, driven primarily by expansion in the enterprise segment. Operating margins remained stable despite increased investment in research and development. The board approved a revised capital allocation framework that prioritizes debt reduction over share repurchases through the end of the fiscal year. Analysts expect continued headwinds in the consumer division as discretionary spending softens. "
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "50336222-3363-59d1-bcef-3ca389e5f6da": {
+    "id": "50336222-3363-59d1-bcef-3ca389e5f6da",
+    "parent": "3adc070b-0a0f-51e2-9a78-27fbe7e1abab",
+    "children": [],
+    "message": {
+     "id": "50336222-3363-59d1-bcef-3ca389e5f6da",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1738436460.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... The report says revenue grew 8%... "
+      ]
+     },
+     "metadata": {}
+    }
+   }
+  }
+ },
+ {
+  "title": "Stats review",
+  "create_time": 1740877200.0,
+  "conversation_id": "63b99538-d574-5044-a7d4-964485ef69bb",
+  "current_node": "6ff01af0-0887-57a0-8627-80b065c64c81",
+  "mapping": {
+   "95678bd4-18c7-514c-bf75-a2ae6bdac6ee": {
+    "id": "95678bd4-18c7-514c-bf75-a2ae6bdac6ee",
+    "message": null,
+    "parent": null,
+    "children": [
+     "7535c4fd-5c49-57d3-8a50-387e880bb094"
+    ]
+   },
+   "7535c4fd-5c49-57d3-8a50-387e880bb094": {
+    "id": "7535c4fd-5c49-57d3-8a50-387e880bb094",
+    "parent": "95678bd4-18c7-514c-bf75-a2ae6bdac6ee",
+    "children": [
+     "a90351ca-ad4a-56a1-ad3e-d174ca1d37a2"
+    ],
+    "message": {
+     "id": "7535c4fd-5c49-57d3-8a50-387e880bb094",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1740877200.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Question 3 options: a) 0.25 b) 0.5 c) 0.75 d) 1.0 for the midterm practice exam in my statistics class, what is the probability of two heads in two fair coin flips given the first is heads"
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "a90351ca-ad4a-56a1-ad3e-d174ca1d37a2": {
+    "id": "a90351ca-ad4a-56a1-ad3e-d174ca1d37a2",
+    "parent": "7535c4fd-5c49-57d3-8a50-387e880bb094",
+    "children": [
+     "1f9ad372-e5d9-5be0-96fa-563ab078a2f3"
+    ],
+    "message": {
+     "id": "a90351ca-ad4a-56a1-ad3e-d174ca1d37a2",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1740877260.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "b) 0.5"
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "1f9ad372-e5d9-5be0-96fa-563ab078a2f3": {
+    "id": "1f9ad372-e5d9-5be0-96fa-563ab078a2f3",
+    "parent": "a90351ca-ad4a-56a1-ad3e-d174ca1d37a2",
+    "children": [
+     "a369ead2-d521-535d-ba42-bb5c75f242fe"
+    ],
+    "message": {
+     "id": "1f9ad372-e5d9-5be0-96fa-563ab078a2f3",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1740877320.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "B"
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "a369ead2-d521-535d-ba42-bb5c75f242fe": {
+    "id": "a369ead2-d521-535d-ba42-bb5c75f242fe",
+    "parent": "1f9ad372-e5d9-5be0-96fa-563ab078a2f3",
+    "children": [
+     "ce348962-3418-594f-a087-f9d21c191a94"
+    ],
+    "message": {
+     "id": "a369ead2-d521-535d-ba42-bb5c75f242fe",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1740877380.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Correct."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "ce348962-3418-594f-a087-f9d21c191a94": {
+    "id": "ce348962-3418-594f-a087-f9d21c191a94",
+    "parent": "a369ead2-d521-535d-ba42-bb5c75f242fe",
+    "children": [
+     "7fd8c3da-f3db-5890-8749-5c901e7bbe3d"
+    ],
+    "message": {
+     "id": "ce348962-3418-594f-a087-f9d21c191a94",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1740877440.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "another one"
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "7fd8c3da-f3db-5890-8749-5c901e7bbe3d": {
+    "id": "7fd8c3da-f3db-5890-8749-5c901e7bbe3d",
+    "parent": "ce348962-3418-594f-a087-f9d21c191a94",
+    "children": [
+     "c40064de-246a-55ed-a4b6-de7bb5a853f2"
+    ],
+    "message": {
+     "id": "7fd8c3da-f3db-5890-8749-5c901e7bbe3d",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1740877500.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Next question..."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "c40064de-246a-55ed-a4b6-de7bb5a853f2": {
+    "id": "c40064de-246a-55ed-a4b6-de7bb5a853f2",
+    "parent": "7fd8c3da-f3db-5890-8749-5c901e7bbe3d",
+    "children": [
+     "5ac4c168-b8ed-5936-811f-71cf7510433d"
+    ],
+    "message": {
+     "id": "c40064de-246a-55ed-a4b6-de7bb5a853f2",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1740877560.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "solve this: a) 1 b) 2 c) 3 which is the mean of 1 2 3"
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "5ac4c168-b8ed-5936-811f-71cf7510433d": {
+    "id": "5ac4c168-b8ed-5936-811f-71cf7510433d",
+    "parent": "c40064de-246a-55ed-a4b6-de7bb5a853f2",
+    "children": [
+     "1911eb18-6ea5-5303-a85f-744f17932d40"
+    ],
+    "message": {
+     "id": "5ac4c168-b8ed-5936-811f-71cf7510433d",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1740877620.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "b) 2"
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "1911eb18-6ea5-5303-a85f-744f17932d40": {
+    "id": "1911eb18-6ea5-5303-a85f-744f17932d40",
+    "parent": "5ac4c168-b8ed-5936-811f-71cf7510433d",
+    "children": [
+     "6ff01af0-0887-57a0-8627-80b065c64c81"
+    ],
+    "message": {
+     "id": "1911eb18-6ea5-5303-a85f-744f17932d40",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1740877680.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "C"
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "6ff01af0-0887-57a0-8627-80b065c64c81": {
+    "id": "6ff01af0-0887-57a0-8627-80b065c64c81",
+    "parent": "1911eb18-6ea5-5303-a85f-744f17932d40",
+    "children": [],
+    "message": {
+     "id": "6ff01af0-0887-57a0-8627-80b065c64c81",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1740877740.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Actually b."
+      ]
+     },
+     "metadata": {}
+    }
+   }
+  }
+ },
+ {
+  "title": "Daily check-in",
+  "create_time": 1743508800.0,
+  "conversation_id": "f94aae53-5c5a-5ac5-a3e4-ccbb72072865",
+  "current_node": "fa7ea45d-0c7f-57b7-8351-f52ce68297de",
+  "mapping": {
+   "0965dd0a-795b-5937-9950-82e03d69e031": {
+    "id": "0965dd0a-795b-5937-9950-82e03d69e031",
+    "message": null,
+    "parent": null,
+    "children": [
+     "a95a38bc-10b0-56e3-8b04-774fa82308c9"
+    ]
+   },
+   "a95a38bc-10b0-56e3-8b04-774fa82308c9": {
+    "id": "a95a38bc-10b0-56e3-8b04-774fa82308c9",
+    "parent": "0965dd0a-795b-5937-9950-82e03d69e031",
+    "children": [
+     "bc5d0112-0df0-54e5-ac51-e501d8927fdb"
+    ],
+    "message": {
+     "id": "a95a38bc-10b0-56e3-8b04-774fa82308c9",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1743508800.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Check in: what's on the list for today? Keep it short. Gym, groceries, emails."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "bc5d0112-0df0-54e5-ac51-e501d8927fdb": {
+    "id": "bc5d0112-0df0-54e5-ac51-e501d8927fdb",
+    "parent": "a95a38bc-10b0-56e3-8b04-774fa82308c9",
+    "children": [
+     "d77b9ad5-2885-53b0-9baa-b2ec784612b3"
+    ],
+    "message": {
+     "id": "bc5d0112-0df0-54e5-ac51-e501d8927fdb",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1743508860.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Got it: gym, groceries, emails."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "d77b9ad5-2885-53b0-9baa-b2ec784612b3": {
+    "id": "d77b9ad5-2885-53b0-9baa-b2ec784612b3",
+    "parent": "bc5d0112-0df0-54e5-ac51-e501d8927fdb",
+    "children": [
+     "ee4f23ad-e9c9-5962-9bed-cd809b7870e5"
+    ],
+    "message": {
+     "id": "d77b9ad5-2885-53b0-9baa-b2ec784612b3",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1743595320.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Check in: what's on the list for today? Keep it short. Gym, groceries, emails."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "ee4f23ad-e9c9-5962-9bed-cd809b7870e5": {
+    "id": "ee4f23ad-e9c9-5962-9bed-cd809b7870e5",
+    "parent": "d77b9ad5-2885-53b0-9baa-b2ec784612b3",
+    "children": [
+     "8535c6fa-1995-5960-a02e-ff9dd0eea4ce"
+    ],
+    "message": {
+     "id": "ee4f23ad-e9c9-5962-9bed-cd809b7870e5",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1743595380.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Got it: gym, groceries, emails."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "8535c6fa-1995-5960-a02e-ff9dd0eea4ce": {
+    "id": "8535c6fa-1995-5960-a02e-ff9dd0eea4ce",
+    "parent": "ee4f23ad-e9c9-5962-9bed-cd809b7870e5",
+    "children": [
+     "700b0afa-5d1d-54f2-a7f7-20db6fdc47a4"
+    ],
+    "message": {
+     "id": "8535c6fa-1995-5960-a02e-ff9dd0eea4ce",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1743681840.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Check in: what's on the list for today? Keep it short. Gym, groceries, emails."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "700b0afa-5d1d-54f2-a7f7-20db6fdc47a4": {
+    "id": "700b0afa-5d1d-54f2-a7f7-20db6fdc47a4",
+    "parent": "8535c6fa-1995-5960-a02e-ff9dd0eea4ce",
+    "children": [
+     "6c9e9e9c-67aa-5615-8175-920988597c8f"
+    ],
+    "message": {
+     "id": "700b0afa-5d1d-54f2-a7f7-20db6fdc47a4",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1743681900.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Got it: gym, groceries, emails."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "6c9e9e9c-67aa-5615-8175-920988597c8f": {
+    "id": "6c9e9e9c-67aa-5615-8175-920988597c8f",
+    "parent": "700b0afa-5d1d-54f2-a7f7-20db6fdc47a4",
+    "children": [
+     "3e7b1825-4747-5963-a659-d7a80652576e"
+    ],
+    "message": {
+     "id": "6c9e9e9c-67aa-5615-8175-920988597c8f",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1743768360.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Check in: what's on the list for today? Keep it short. Gym, groceries, emails."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "3e7b1825-4747-5963-a659-d7a80652576e": {
+    "id": "3e7b1825-4747-5963-a659-d7a80652576e",
+    "parent": "6c9e9e9c-67aa-5615-8175-920988597c8f",
+    "children": [
+     "b7191a3f-98b9-5bfb-a97c-d5d3dab4bf04"
+    ],
+    "message": {
+     "id": "3e7b1825-4747-5963-a659-d7a80652576e",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1743768420.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Got it: gym, groceries, emails."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "b7191a3f-98b9-5bfb-a97c-d5d3dab4bf04": {
+    "id": "b7191a3f-98b9-5bfb-a97c-d5d3dab4bf04",
+    "parent": "3e7b1825-4747-5963-a659-d7a80652576e",
+    "children": [
+     "2e0da810-de26-53ae-832b-ead899734be7"
+    ],
+    "message": {
+     "id": "b7191a3f-98b9-5bfb-a97c-d5d3dab4bf04",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1743854880.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Check in: what's on the list for today? Keep it short. Gym, groceries, emails."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "2e0da810-de26-53ae-832b-ead899734be7": {
+    "id": "2e0da810-de26-53ae-832b-ead899734be7",
+    "parent": "b7191a3f-98b9-5bfb-a97c-d5d3dab4bf04",
+    "children": [
+     "bfba17ef-8808-52b8-a884-0aa0789cecb0"
+    ],
+    "message": {
+     "id": "2e0da810-de26-53ae-832b-ead899734be7",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1743854940.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Got it: gym, groceries, emails."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "bfba17ef-8808-52b8-a884-0aa0789cecb0": {
+    "id": "bfba17ef-8808-52b8-a884-0aa0789cecb0",
+    "parent": "2e0da810-de26-53ae-832b-ead899734be7",
+    "children": [
+     "10da3436-b160-543b-8aa7-c6a54c5b4ba6"
+    ],
+    "message": {
+     "id": "bfba17ef-8808-52b8-a884-0aa0789cecb0",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1743941400.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Check in: what's on the list for today? Keep it short. Gym, groceries, emails."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "10da3436-b160-543b-8aa7-c6a54c5b4ba6": {
+    "id": "10da3436-b160-543b-8aa7-c6a54c5b4ba6",
+    "parent": "bfba17ef-8808-52b8-a884-0aa0789cecb0",
+    "children": [
+     "38180d15-346b-5913-b2ce-78de73158bb3"
+    ],
+    "message": {
+     "id": "10da3436-b160-543b-8aa7-c6a54c5b4ba6",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1743941460.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Got it: gym, groceries, emails."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "38180d15-346b-5913-b2ce-78de73158bb3": {
+    "id": "38180d15-346b-5913-b2ce-78de73158bb3",
+    "parent": "10da3436-b160-543b-8aa7-c6a54c5b4ba6",
+    "children": [
+     "fa7ea45d-0c7f-57b7-8351-f52ce68297de"
+    ],
+    "message": {
+     "id": "38180d15-346b-5913-b2ce-78de73158bb3",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1744027920.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Check in: what's on the list for today? Keep it short. Gym, groceries, emails."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "fa7ea45d-0c7f-57b7-8351-f52ce68297de": {
+    "id": "fa7ea45d-0c7f-57b7-8351-f52ce68297de",
+    "parent": "38180d15-346b-5913-b2ce-78de73158bb3",
+    "children": [],
+    "message": {
+     "id": "fa7ea45d-0c7f-57b7-8351-f52ce68297de",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1744027980.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Got it: gym, groceries, emails."
+      ]
+     },
+     "metadata": {}
+    }
+   }
+  }
+ },
+ {
+  "title": "Borrowed ambition",
+  "create_time": 1746496800.0,
+  "conversation_id": "329ab36e-98aa-56bd-a57f-82103e1728ad",
+  "current_node": "fb4ed17d-1946-5f39-a5c0-d0dd29256950",
+  "mapping": {
+   "8724f174-632a-56bd-ab1f-24535cf308f7": {
+    "id": "8724f174-632a-56bd-ab1f-24535cf308f7",
+    "message": null,
+    "parent": null,
+    "children": [
+     "0d7b58f8-6dc6-5ef5-801b-94a6a5d40410"
+    ]
+   },
+   "0d7b58f8-6dc6-5ef5-801b-94a6a5d40410": {
+    "id": "0d7b58f8-6dc6-5ef5-801b-94a6a5d40410",
+    "parent": "8724f174-632a-56bd-ab1f-24535cf308f7",
+    "children": [
+     "6478c13e-9d6d-5acf-a835-e65a3db01051"
+    ],
+    "message": {
+     "id": "0d7b58f8-6dc6-5ef5-801b-94a6a5d40410",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1746496800.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "I keep making plans to start a company and every one of them feels heavy before I even begin. I can't tell if I'm lazy or if something else is going on with how I set goals for myself."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "6478c13e-9d6d-5acf-a835-e65a3db01051": {
+    "id": "6478c13e-9d6d-5acf-a835-e65a3db01051",
+    "parent": "0d7b58f8-6dc6-5ef5-801b-94a6a5d40410",
+    "children": [
+     "de663fa1-4d16-5850-bd43-f11c284932d3"
+    ],
+    "message": {
+     "id": "6478c13e-9d6d-5acf-a835-e65a3db01051",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1746496860.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "It sounds like you're describing ambition that has been borrowed from someone else rather than chosen by you."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "de663fa1-4d16-5850-bd43-f11c284932d3": {
+    "id": "de663fa1-4d16-5850-bd43-f11c284932d3",
+    "parent": "6478c13e-9d6d-5acf-a835-e65a3db01051",
+    "children": [
+     "8490bb88-411b-569c-94c8-cd51168de951"
+    ],
+    "message": {
+     "id": "de663fa1-4d16-5850-bd43-f11c284932d3",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1746496920.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Yes exactly, ambition that has been borrowed from someone else rather than chosen by you. That's the thing I keep running into with the founder idea and it explains why every plan feels heavy."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "8490bb88-411b-569c-94c8-cd51168de951": {
+    "id": "8490bb88-411b-569c-94c8-cd51168de951",
+    "parent": "de663fa1-4d16-5850-bd43-f11c284932d3",
+    "children": [
+     "244a1c55-eed3-5835-b461-565dc1866280"
+    ],
+    "message": {
+     "id": "8490bb88-411b-569c-94c8-cd51168de951",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1746496980.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "What would a chosen ambition look like?"
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "244a1c55-eed3-5835-b461-565dc1866280": {
+    "id": "244a1c55-eed3-5835-b461-565dc1866280",
+    "parent": "8490bb88-411b-569c-94c8-cd51168de951",
+    "children": [
+     "fb4ed17d-1946-5f39-a5c0-d0dd29256950"
+    ],
+    "message": {
+     "id": "244a1c55-eed3-5835-b461-565dc1866280",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1746497040.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Map which of your goals are chosen versus inherited\n\u2022 Identify the strongest inherited one"
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "fb4ed17d-1946-5f39-a5c0-d0dd29256950": {
+    "id": "fb4ed17d-1946-5f39-a5c0-d0dd29256950",
+    "parent": "244a1c55-eed3-5835-b461-565dc1866280",
+    "children": [],
+    "message": {
+     "id": "fb4ed17d-1946-5f39-a5c0-d0dd29256950",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1746497100.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Here's a map..."
+      ]
+     },
+     "metadata": {}
+    }
+   }
+  }
+ },
+ {
+  "title": "Parser bug",
+  "create_time": 1748790000.0,
+  "conversation_id": "5002e8bb-e70e-50aa-b63b-2844f45b9444",
+  "current_node": "7d49a258-20bd-5df0-9bef-4e7fa3bcb72a",
+  "mapping": {
+   "6d274bea-a1c8-5f98-b460-6008c895b0d9": {
+    "id": "6d274bea-a1c8-5f98-b460-6008c895b0d9",
+    "message": null,
+    "parent": null,
+    "children": [
+     "cbeb8593-4faa-5fba-a42b-8619910d87d8"
+    ]
+   },
+   "cbeb8593-4faa-5fba-a42b-8619910d87d8": {
+    "id": "cbeb8593-4faa-5fba-a42b-8619910d87d8",
+    "parent": "6d274bea-a1c8-5f98-b460-6008c895b0d9",
+    "children": [
+     "7d49a258-20bd-5df0-9bef-4e7fa3bcb72a"
+    ],
+    "message": {
+     "id": "cbeb8593-4faa-5fba-a42b-8619910d87d8",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1748790000.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Why does this throw? I want the parser to skip empty lines.\n\n```python\ndef parse(lines):\n    for line in lines:\n        yield line.split(',')[1]\ndef parse(lines):\n    for line in lines:\n        yield line.split(',')[1]\ndef parse(lines):\n    for line in lines:\n        yield line.split(',')[1]\ndef parse(lines):\n    for line in lines:\n        yield line.split(',')[1]\ndef parse(lines):\n    for line in lines:\n        yield line.split(',')[1]\ndef parse(lines):\n    for line in lines:\n        yield line.split(',')[1]\n```\nIt fails on the blank line at the end of the file every time."
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "7d49a258-20bd-5df0-9bef-4e7fa3bcb72a": {
+    "id": "7d49a258-20bd-5df0-9bef-4e7fa3bcb72a",
+    "parent": "cbeb8593-4faa-5fba-a42b-8619910d87d8",
+    "children": [],
+    "message": {
+     "id": "7d49a258-20bd-5df0-9bef-4e7fa3bcb72a",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1748790060.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "```python\nfor line in lines:\n    if line.strip(): ...\n```"
+      ]
+     },
+     "metadata": {}
+    }
+   }
+  }
+ },
+ {
+  "title": "Two lists",
+  "create_time": 1751374800.0,
+  "conversation_id": "a40b6368-adf8-5ef1-a615-570d30b1d424",
+  "current_node": "276a8cc1-c151-5af1-befd-96c7a0df6128",
+  "mapping": {
+   "fbd56eb2-33c3-5efd-b9e4-6135ac91575d": {
+    "id": "fbd56eb2-33c3-5efd-b9e4-6135ac91575d",
+    "message": null,
+    "parent": null,
+    "children": [
+     "ae877b6f-3a15-5227-b530-7ac370f86132"
+    ]
+   },
+   "ae877b6f-3a15-5227-b530-7ac370f86132": {
+    "id": "ae877b6f-3a15-5227-b530-7ac370f86132",
+    "parent": "fbd56eb2-33c3-5efd-b9e4-6135ac91575d",
+    "children": [
+     "276a8cc1-c151-5af1-befd-96c7a0df6128"
+    ],
+    "message": {
+     "id": "ae877b6f-3a15-5227-b530-7ac370f86132",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1751374800.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Here are my two lists of what I want this year, first the ones I actually care about and then the ones I think I should want.\n\nTravel more, write every week, build one thing that is mine\n\n---\n\nGet promoted, buy a nicer car, have a five year plan, and I notice the second list is the one I talk about at dinner"
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "276a8cc1-c151-5af1-befd-96c7a0df6128": {
+    "id": "276a8cc1-c151-5af1-befd-96c7a0df6128",
+    "parent": "ae877b6f-3a15-5227-b530-7ac370f86132",
+    "children": [],
+    "message": {
+     "id": "276a8cc1-c151-5af1-befd-96c7a0df6128",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1751374860.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "The first list is about expression; the second is about approval."
+      ]
+     },
+     "metadata": {}
+    }
+   }
+  }
+ },
+ {
+  "title": "Quick question",
+  "create_time": 1754064000.0,
+  "conversation_id": "992d5bf7-9e8e-5a96-a7dd-b8d487ac565b",
+  "current_node": "3d555aa5-f196-5a7c-bd11-a5bee9e5c38f",
+  "mapping": {
+   "0babdd54-001b-575b-a3cb-2d41049d7a11": {
+    "id": "0babdd54-001b-575b-a3cb-2d41049d7a11",
+    "message": null,
+    "parent": null,
+    "children": [
+     "a1057af6-66f2-5f87-b9e6-dc2296b3386e"
+    ]
+   },
+   "a1057af6-66f2-5f87-b9e6-dc2296b3386e": {
+    "id": "a1057af6-66f2-5f87-b9e6-dc2296b3386e",
+    "parent": "0babdd54-001b-575b-a3cb-2d41049d7a11",
+    "children": [
+     "3d555aa5-f196-5a7c-bd11-a5bee9e5c38f"
+    ],
+    "message": {
+     "id": "a1057af6-66f2-5f87-b9e6-dc2296b3386e",
+     "author": {
+      "role": "user"
+     },
+     "create_time": 1754064000.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "What's 15% of 80?"
+      ]
+     },
+     "metadata": {}
+    }
+   },
+   "3d555aa5-f196-5a7c-bd11-a5bee9e5c38f": {
+    "id": "3d555aa5-f196-5a7c-bd11-a5bee9e5c38f",
+    "parent": "a1057af6-66f2-5f87-b9e6-dc2296b3386e",
+    "children": [],
+    "message": {
+     "id": "3d555aa5-f196-5a7c-bd11-a5bee9e5c38f",
+     "author": {
+      "role": "assistant"
+     },
+     "create_time": 1754064060.0,
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "12."
+      ]
+     },
+     "metadata": {}
+    }
+   }
+  }
+ }
+]
