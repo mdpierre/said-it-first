@@ -12,13 +12,39 @@ the source**, and walks you through approving notes one section at a time.
 Built on and tested against a real 4,164-conversation archive. See
 [METHOD.md](METHOD.md) for what broke and why each piece exists.
 
+```mermaid
+flowchart TD
+    E[/"ChatGPT export"/] --> K[["check<br/><i>is the format what we expect?</i>"]]
+    K -- "no" --> STOP["stop: nothing written"]
+    K -- "yes" --> P["1 · parse<br/><i>whose words is each turn?</i><br/>typed · dictated · pasted · quiz · clicked chip · echoed"]
+    P --> V["2 · voice<br/><i>your turns only, split into chunks</i>"]
+    P --> R["3 · rank<br/><i>score by authored words → SHORTLIST</i>"]
+    V --> A["4a · chunk readers<br/><i>one Claude agent per chunk, in parallel</i>"]
+    R --> M
+    A --> M["4b · merge<br/><i>judged shortlist + Was / Now / Because deltas</i>"]
+    M --> VF[["5 · verify<br/><i>is every quote really yours?</i>"]]
+    VF -- "fails" --> M
+    VF -- "passes" --> Y["6–7 · you review<br/><i>deltas, then one section at a time</i>"]
+    Y --> G[["promote<br/><i>the only way into your notes</i>"]]
+    G -- "refused" --> Y
+    G -- "ok" --> N[("your notes")]
+    Y --> L[("8 · ledger<br/><i>what you've reviewed</i>")]
+    L -. "next export: skip what's already reviewed" .-> R
+    L -.-> V
+
+    classDef script fill:#e8eef6,stroke:#46607e,color:#1b2a3a
+    classDef model fill:#efe9f7,stroke:#6b4fa0,color:#2a1d40
+    classDef you fill:#fff4c2,stroke:#a88a00,color:#3a3000
+    classDef stop fill:#fbe4e4,stroke:#a33,color:#511
+    class K,P,V,R,VF,G,L script
+    class A,M model
+    class Y,N you
+    class STOP stop
 ```
-export -> parse -> voice -> rank -> read (Claude) -> verify -> you approve -> promote -> notes
-         (whose    (your     (triage) (chunked,      (every     (nothing       (refuses
-          words?)   turns             in parallel)   quote)     skips this)    bad quotes)
-                    only)
-                                   ledger: what you already reviewed is skipped next export
-```
+
+Blue steps are scripts, purple steps are Claude agents, yellow steps are
+you. Scripts sort and check, Claude reads, and you decide. Nothing reaches
+your notes without passing `verify` and your approval.
 
 ## What makes it different
 
