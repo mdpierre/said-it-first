@@ -46,6 +46,14 @@ def _shard_key(name):
     return int(m.group(1)) if m else 0
 
 
+def _as_list(data, name):
+    """A shard that isn't a list would be extended by its keys. Refuse it."""
+    if not isinstance(data, list):
+        sys.exit(f"{name}: expected a list of conversations, got "
+                 f"{type(data).__name__}. The export format may have changed.")
+    return data
+
+
 def load_conversations(path):
     """
     Accept a .zip, a conversations.json, or a directory.
@@ -67,7 +75,7 @@ def load_conversations(path):
             convos = []
             for s in shards:
                 with io.open(s, encoding="utf-8") as fh:
-                    convos.extend(json.load(fh))
+                    convos.extend(_as_list(json.load(fh), s))
             print(f"loaded   {len(convos)} conversations from {len(shards)} shards")
             return convos
     if path.endswith(".zip"):
@@ -83,7 +91,8 @@ def load_conversations(path):
             convos = []
             for n in sorted(names, key=_shard_key):
                 with z.open(n) as fh:
-                    convos.extend(json.load(io.TextIOWrapper(fh, encoding="utf-8")))
+                    convos.extend(_as_list(
+                        json.load(io.TextIOWrapper(fh, encoding="utf-8")), n))
             print(f"loaded   {len(convos)} conversations from {len(names)} shards")
             return convos
     with io.open(path, encoding="utf-8") as fh:
@@ -124,9 +133,11 @@ def linearize(convo):
     mapping = convo.get("mapping") or {}
     node_id = convo.get("current_node")
 
-    # Some exports omit current_node; fall back to the deepest leaf.
+    # Some exports omit current_node; fall back to the last leaf. Leaves are
+    # derived from parent pointers: not every export carries `children`.
     if not node_id or node_id not in mapping:
-        leaves = [k for k, v in mapping.items() if not (v.get("children") or [])]
+        parents = {v.get("parent") for v in mapping.values() if isinstance(v, dict)}
+        leaves = [k for k in mapping if k not in parents]
         node_id = leaves[-1] if leaves else None
 
     chain = []
@@ -642,12 +653,16 @@ def render(convo, turns, meta):
     return "\n".join(lines)
 
 
-def run(export, cfg, out=None, limit=0, min_user_words=None):
+def run(export, cfg, out=None, limit=0, min_user_words=None,
+        skip_check=False, strict=False):
     configure(cfg)
     out = out or cfg["paths"]["archive"]
     floor = cfg["parse"]["min_user_words"] if min_user_words is None else min_user_words
 
     convos = load_conversations(export)
+    if not skip_check:
+        from . import schema
+        schema.check(convos, strict)
     total_in = len(convos)
     if limit:
         convos = convos[:limit]
@@ -719,9 +734,14 @@ def main(argv=None):
     ap.add_argument("--out", help="override paths.archive")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--min-user-words", type=int)
+    ap.add_argument("--skip-check", action="store_true",
+                    help="parse even if the export format check fails")
+    ap.add_argument("--strict", action="store_true",
+                    help="stop on format warnings too")
     args = ap.parse_args(argv)
     cfg = cfgmod.load(args.config)
-    run(args.export, cfg, args.out, args.limit, args.min_user_words)
+    run(args.export, cfg, args.out, args.limit, args.min_user_words,
+        args.skip_check, args.strict)
 
 
 if __name__ == "__main__":

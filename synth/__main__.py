@@ -1,6 +1,7 @@
 """
 chat-synthesis command line.
 
+    python3 -m synth check <export>   validate the export format (parse runs this)
     python3 -m synth parse <export>   stage 1: export -> markdown + index.json
     python3 -m synth voice            stage 2: your turns only, by year
     python3 -m synth rank             stage 3: score -> SHORTLIST.md
@@ -17,12 +18,13 @@ Stages 4, 6 and 7 are model and human passes; see .claude/skills/.
 
 import sys
 
-from . import ledger, parse, promote, rank, stats, verify, voice
+from . import ledger, parse, promote, rank, schema, stats, verify, voice
 from . import config as cfgmod
 
 COMMANDS = {"parse": parse.main, "voice": voice.main, "rank": rank.main,
             "verify": verify.main, "stats": stats.main,
-            "promote": promote.main, "ledger": ledger.main}
+            "promote": promote.main, "ledger": ledger.main,
+            "check": schema.main}
 
 
 def run_all(argv):
@@ -31,10 +33,12 @@ def run_all(argv):
     ap.add_argument("export")
     ap.add_argument("--config")
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--skip-check", action="store_true")
+    ap.add_argument("--strict", action="store_true")
     args = ap.parse_args(argv)
     cfg = cfgmod.load(args.config)
     print(f"config   {cfg['_source']}\n")
-    parse.run(args.export, cfg)
+    parse.run(args.export, cfg, skip_check=args.skip_check, strict=args.strict)
     print()
     voice.run(cfg)
     print()

@@ -147,6 +147,23 @@ reconciliation in the voice stage that warns if output is short of input.
 The general lesson: **count input and output at every stage.** `synth parse`
 now accounts for every conversation it reads.
 
+### 4b. The export format is undocumented, and it drifts
+
+The same failure shape is waiting one level down. ChatGPT's export has no
+published schema. Across one archive it already carried `text`,
+`multimodal_text`, `thoughts`, `reasoning_recap` and `user_editable_context`
+messages, and nodes with no `children` key, which the leaf fallback
+depended on. If a future export puts your messages under a new
+`content_type`, a parser that keeps only the types it knows would report a
+clean run with some of you missing.
+
+**Fix:** `synth check` (run by `parse` before anything is written). It
+stops on structural breaks (not a list, no `mapping`, no user text at all)
+and warns, with a message count and word count, on any content type or role
+it doesn't recognise. Types that are dropped on purpose are listed in
+`synth/schema.py`, so a warning always means something new. The leaf
+fallback now derives leaves from `parent` pointers.
+
 ### 5. Returning to a thread isn't returning to a thought
 
 "Days touched" was the heaviest signal: a conversation revisited over many

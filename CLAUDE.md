@@ -8,7 +8,7 @@ because of a specific failure on a real archive.
 
 - Full pipeline: the `archive-synthesis` skill. Start there for any user
   request about processing an archive.
-- Scripts: `python3 -m synth <parse|voice|rank|verify|promote|ledger|stats|run|paths>`,
+- Scripts: `python3 -m synth <check|parse|voice|rank|verify|promote|ledger|stats|run|paths>`,
   all taking `--config`.
 - Tests: `python3 -m unittest discover tests`. Run after any change to `synth/`.
 
@@ -23,6 +23,9 @@ because of a specific failure on a real archive.
   add a test case, add an invented conversation to `tests/make_fixture.py`.
 - A new failure mode found on a real archive gets: a fix, a fixture
   conversation, a test, and a section in METHOD.md.
+- A new content_type seen in a real export goes in `TEXT_TYPES`
+  (`synth/parse.py`) if it carries conversation text, else in
+  `EXPECTED_DROPS` (`synth/schema.py`). Never silence the warning otherwise.
 - Nothing is written to the user's notes folder without their explicit
   approval of that content, and only via `synth promote`. Staging is for
   drafts.

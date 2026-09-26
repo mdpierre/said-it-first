@@ -71,7 +71,7 @@ your notes.
 
 | # | Stage | Who | Output |
 |---|---|---|---|
-| 1 | `synth parse` | script | one markdown file per conversation + `index.json` |
+| 1 | `synth parse` | script | format check, then one markdown file per conversation + `index.json` |
 | 2 | `synth voice` | script | your turns only, by year (the corpus models read) |
 | 3 | `synth rank` | script | `SHORTLIST.md`, triage by authored words, voice, depth |
 | 4a | chunk reading | `chunk-reader` agents, in parallel | reading notes per chunk |
@@ -81,7 +81,9 @@ your notes.
 | 7 | section loop | `section-extractor` agent + **you**, then `synth promote` | extraction sheet -> approved notes |
 | 8 | `synth ledger sync` | script | reviewed conversations skipped next export |
 
-Utilities: `synth stats` (calibrate authorship on your archive),
+Utilities: `synth check <export>` (validate the export format without
+writing anything; `parse` runs it first), `synth stats` (calibrate authorship
+on your archive),
 `synth ledger show`, `synth paths`.
 
 ## Configure

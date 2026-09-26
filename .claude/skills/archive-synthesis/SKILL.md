@@ -34,6 +34,13 @@ repo root.
 python3 -m synth run <export.zip | export-dir>
 ```
 
+`parse` validates the export format first. An `ERROR` line means nothing was
+written: report it to the owner, don't use `--skip-check` without their say.
+A `USER TEXT DROPPED` warning means some of the owner's messages use a
+content type the parser doesn't know. Stop and show the owner the warning;
+the fix is one line in `synth/parse.py` (`TEXT_TYPES`) or `synth/schema.py`
+(`EXPECTED_DROPS`).
+
 Then **check the counts** in the output before moving on:
 - `input` = `parsed` + `skipped`; any "unaccounted" or "WARNING" line stops
   the run until explained.

@@ -20,7 +20,7 @@ sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "tests"))
 
 import make_fixture  # noqa: E402
-from synth import config, ledger, parse, promote, rank, verify, voice  # noqa: E402
+from synth import config, ledger, parse, promote, rank, schema, verify, voice  # noqa: E402
 
 
 def quiet(fn, *a, **kw):
@@ -295,7 +295,8 @@ source: chatgpt-synthesis
     def test_ticked_rows_skipped_next_run(self):
         self.assertIn("Rethinking the founder plan", self._titles())
         sl = self.cfg["paths"]["shortlist"]
-        lines = open(sl).read().split("\n")
+        with open(sl) as fh:
+            lines = fh.read().split("\n")
         lines = [l.replace("| [ ] |", "| [x] |", 1)
                  if "rethinking-the-founder-plan" in l and "branch" not in l else l
                  for l in lines]
@@ -366,6 +367,100 @@ source: chatgpt-synthesis
         p = self._stage("ambition-as-costume.md", self.GOOD)
         self.assertEqual(quiet(promote.run, self.cfg, [p], check_only=True), 0)
         self.assertEqual(self._notes(), [])
+
+
+class ExportFormat(unittest.TestCase):
+    """The export format is undocumented and drifts. A change must fail
+    loudly, never parse cleanly with less of the owner's text in it."""
+
+    def _convos(self):
+        return copy.deepcopy(make_fixture.CONVERSATIONS)
+
+    def _user_nodes(self, convos):
+        for c in convos:
+            for n in c["mapping"].values():
+                m = n.get("message")
+                if m and m["author"]["role"] == "user":
+                    yield m
+
+    def test_fixture_is_clean(self):
+        errors, warnings, stats = schema.validate(self._convos())
+        self.assertEqual((errors, warnings), ([], []))
+        self.assertGreater(stats["user_messages_with_text"], 0)
+
+    def test_expected_drops_do_not_warn(self):
+        convos = self._convos()
+        c = convos[0]
+        c["mapping"]["t"] = {"id": "t", "parent": None, "message": {
+            "author": {"role": "assistant"},
+            "content": {"content_type": "thoughts", "thoughts": []}}}
+        self.assertEqual(schema.validate(convos)[1], [])
+
+    def test_unknown_user_content_type_warns_with_words(self):
+        convos = self._convos()
+        for m in self._user_nodes(convos[:3]):
+            m["content"]["content_type"] = "rich_text_v2"
+        errors, warnings, _ = schema.validate(convos)
+        self.assertEqual(errors, [])
+        self.assertTrue(any(w.startswith("USER TEXT DROPPED") and "rich_text_v2" in w
+                            for w in warnings), warnings)
+
+    def test_every_user_type_changed_is_an_error(self):
+        convos = self._convos()
+        for m in self._user_nodes(convos):
+            m["content"]["content_type"] = "rich_text_v2"
+        errors, _, _ = schema.validate(convos)
+        self.assertTrue(any("no user message with text" in e for e in errors))
+
+    def test_non_list_export_is_an_error(self):
+        errors, _, _ = schema.validate({"conversations": self._convos()})
+        self.assertTrue(errors)
+
+    def test_missing_mapping_is_an_error(self):
+        convos = self._convos()
+        for c in convos:
+            c["messages"] = c.pop("mapping")
+        errors, _, _ = schema.validate(convos)
+        self.assertTrue(any("mapping" in e for e in errors))
+
+    def test_parse_refuses_and_writes_nothing(self):
+        tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp)
+        export = os.path.join(tmp, "conversations.json")
+        convos = self._convos()
+        for m in self._user_nodes(convos):
+            m["content"]["content_type"] = "rich_text_v2"
+        with open(export, "w") as fh:
+            json.dump(convos, fh)
+        cfg = copy.deepcopy(config.DEFAULTS)
+        cfg["paths"]["archive"] = os.path.join(tmp, "archive")
+        with self.assertRaises(SystemExit):
+            quiet(parse.run, export, cfg)
+        self.assertFalse(os.path.exists(cfg["paths"]["archive"]))
+
+    def test_strict_fails_on_warnings(self):
+        convos = self._convos()
+        next(self._user_nodes(convos))["content"]["content_type"] = "rich_text_v2"
+        with self.assertRaises(SystemExit):
+            quiet(schema.check, convos, strict=True)
+        quiet(schema.check, convos)   # not strict: warns, continues
+
+    def test_shard_that_is_not_a_list_is_refused(self):
+        tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp)
+        with open(os.path.join(tmp, "conversations-000.json"), "w") as fh:
+            json.dump({"a": 1}, fh)
+        with self.assertRaises(SystemExit):
+            quiet(parse.load_conversations, tmp)
+
+    def test_missing_current_node_without_children_keys(self):
+        # Real exports carry no `children`; the fallback must use parents.
+        c = copy.deepcopy(make_fixture.CONVERSATIONS[0])
+        want = [t["text"] for t in parse.linearize(c)]
+        c.pop("current_node")
+        for n in c["mapping"].values():
+            n.pop("children", None)
+        self.assertEqual([t["text"] for t in parse.linearize(c)], want)
 
 
 if __name__ == "__main__":

@@ -24,6 +24,6 @@ jobs:
       - name: Pipeline smoke run on the sample export
         run: |
           printf '[parse]\ntimezone = "UTC"\n' > chat-synthesis.toml
-          python -m synth run examples/sample-export
+          python -m synth run examples/sample-export --strict
           python -m synth ledger show
           python -m synth verify --dir workspace/staging || true
