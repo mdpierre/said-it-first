@@ -1,6 +1,6 @@
 ---
 name: delta-reconstructor
-description: Reconstructs how the owner's positions changed over time from the voice corpus. For each change, finds the "was" side and the cause, dated and sourced, and reports what the archive cannot support. Stage 4, pass B of the archive-synthesis pipeline.
+description: Reconstructs how the owner's positions changed over time, starting from the chunk-readers' dated position statements. For each change, finds the "was" side and the cause, dated and sourced, and reports what the archive cannot support. Stage 4b, pass B of the archive-synthesis pipeline.
 tools: Read, Write, Glob, Grep, Bash
 model: inherit
 ---
@@ -30,17 +30,23 @@ and what moved it, is the thing worth keeping.
 4. `position_changes` in the config file (its path is the `config` line of
    `synth paths`). That is the canonical list; the shortlist only copies it.
 
-## The corpus
+## Your inputs
 
-`<archive>/voice/<year>.md`: **the owner's turns**, with the assistant's
-replies stripped, because what the assistant said is exactly what must not
-end up attributed to the owner.
+- `<staging>/reading/chunk-*.md`, the **Position statements** sections: every
+  dated, verbatim statement of a position the readers found, across the whole
+  archive, oldest chunk first. This is your map of where positions moved.
+- `<archive>/conversations/<stem>.md`: full transcripts. **Open the
+  conversations behind every change you write up.** Readers quote; you
+  establish the was, the now, and the cause, which usually needs the
+  surrounding turns.
+- `<archive>/voice/<year>.md`: the owner's turns by year, for grep. Old
+  conversations already reviewed on an earlier run are here even though
+  readers skipped them; search them for the "was" side of anything new.
 
-Do not trust the voice file on authorship. It still contains clicked
-follow-up chips, pasted text the parser missed, and lines the owner repeated
-after the assistant said them. **Whenever a turn agrees with, answers, or
-repeats something, open the full transcript** at
-`<archive>/conversations/<stem>.md` and check who said it first.
+Do not trust any of these on authorship. Voice files and reader notes still
+contain clicked chips, missed pastes, and lines the owner repeated after the
+assistant said them. **Whenever a turn agrees with, answers, or repeats
+something, check the full transcript** for who said it first.
 
 ## Deliver
 

@@ -19,9 +19,18 @@ import json
 import os
 import re
 import sys
+import unicodedata
 import zipfile
 
 from . import config as cfgmod
+
+# Timezone used to turn timestamps into calendar dates. None = this machine's
+# local zone. Set `timezone` under [parse] for reproducible dates.
+TZ = None
+
+
+def day(ts):
+    return dt.datetime.fromtimestamp(ts, TZ).strftime("%Y-%m-%d")
 
 # Roles we keep in the transcript. Everything else (system, tool, browsing) is dropped.
 KEEP_ROLES = {"user", "assistant"}
@@ -225,9 +234,15 @@ COURSEWORK_MARKERS = _alt(COURSEWORK_BASE)
 
 
 def configure(cfg):
-    """Fold the config's extra markers into the module-level patterns."""
-    global OWN_VOICE, THIRD_PARTY, COURSEWORK_MARKERS
+    """Fold the config's extra markers and timezone into module state."""
+    global OWN_VOICE, THIRD_PARTY, COURSEWORK_MARKERS, TZ
     p = cfg.get("parse", {})
+    tz = p.get("timezone")
+    if tz:
+        from zoneinfo import ZoneInfo
+        TZ = ZoneInfo(tz)
+    else:
+        TZ = None
     OWN_VOICE = _alt(OWN_VOICE_BASE + list(p.get("extra_own_voice_preambles", [])))
     THIRD_PARTY = _alt(THIRD_PARTY_BASE + list(p.get("extra_paste_markers", [])))
     COURSEWORK_MARKERS = _alt(COURSEWORK_BASE + list(p.get("extra_coursework_markers", [])))
@@ -379,19 +394,70 @@ def term_bag(user_texts):
 CONTENT_DAY_WORDS = 80
 
 
-def authorship(user_texts):
-    """Split a conversation's user turns by who actually wrote them."""
+# --- echoes ----------------------------------------------------------------
+#
+# "Yes exactly, <the assistant's last sentence>" is not your thinking. Words in
+# a user turn that sit inside an 8+ word run the assistant said in the turn
+# just before are counted as `echoed`, not authored. Detecting the overlap is
+# mechanical; whether you made the idea your own is not, so the words are only
+# withheld from the score. verify flags echoes in quotes separately.
+
+ECHO_RUN = 8
+
+
+def norm(s):
+    """Lowercase, fold typography, keep only [a-z0-9 ]. Shared with verify."""
+    s = unicodedata.normalize("NFKC", s)
+    for a, b in [("‘", "'"), ("’", "'"), ("“", '"'), ("”", '"'),
+                 ("–", "-"), ("—", "-"), ("…", "...")]:
+        s = s.replace(a, b)
+    return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]+", " ", s.lower())).strip()
+
+
+def ngrams(text, n):
+    w = text.split()
+    return {" ".join(w[i:i + n]) for i in range(len(w) - n + 1)}
+
+
+def echo_share(text, prev_assistant):
+    """Fraction of `text`'s words inside runs copied from `prev_assistant`."""
+    if not prev_assistant:
+        return 0.0
+    grams = ngrams(norm(prev_assistant), ECHO_RUN)
+    toks = norm(text).split()
+    if not grams or len(toks) < ECHO_RUN:
+        return 0.0
+    covered = [False] * len(toks)
+    for i in range(len(toks) - ECHO_RUN + 1):
+        if " ".join(toks[i:i + ECHO_RUN]) in grams:
+            covered[i:i + ECHO_RUN] = [True] * ECHO_RUN
+    return sum(covered) / len(toks)
+
+
+def authorship(user_texts, prev_assistant=None):
+    """
+    Split a conversation's user turns by who actually wrote them.
+
+    `prev_assistant[i]` is the assistant turn right before user turn i (or
+    None). Without it, echoes are not detected.
+    """
     counts = {"authored": 0, "own_voice": 0, "pasted": 0,
               "quiz": 0, "suggestion": 0}
     words = dict.fromkeys(counts, 0)
+    echoed = 0
     labels = []
-    for text in user_texts:
+    prev_assistant = prev_assistant or [None] * len(user_texts)
+    for text, prev in zip(user_texts, prev_assistant):
         # Code pasted inside a message is not prose you wrote. Classify and
         # credit the prose; the code's words count as pasted.
         prose = CODE_FENCE.sub(" ", text)
         code_n = len(WORD.findall(text)) - len(WORD.findall(prose))
         lab = classify_turn(prose)
         n = len(WORD.findall(prose))
+        if lab in ("authored", "own_voice"):
+            e = round(n * echo_share(prose, prev))
+            echoed += e
+            n -= e
         counts[lab] += 1
         words[lab] += n
         words["pasted"] += code_n
@@ -404,7 +470,20 @@ def authorship(user_texts):
         "pasted_words": words["pasted"] + words["quiz"] + words["suggestion"],
         "authored_turns": counts["authored"] + counts["own_voice"],
         "max_user_turn_words": max(mine) if mine else 0,
+        "echoed_words": echoed,
     }
+
+
+def previous_assistant(turns):
+    """For each user turn, the text of the assistant turn just before it."""
+    out, last = [], None
+    for t in turns:
+        if t["role"] == "assistant":
+            last = t["text"]
+        else:
+            out.append(last)
+            last = None
+    return out
 
 
 def metrics(turns):
@@ -419,20 +498,20 @@ def metrics(turns):
 
     times = sorted(t["time"] for t in turns if t.get("time"))
     days = {
-        dt.datetime.fromtimestamp(t).strftime("%Y-%m-%d") for t in times
+        day(t) for t in times
     }
     span_h = round((times[-1] - times[0]) / 3600.0, 2) if len(times) > 1 else 0.0
 
     user_texts = [t["text"] for t in user]
-    auth = authorship(user_texts)
+    auth = authorship(user_texts, previous_assistant(turns))
 
     # Authored words per calendar day, so a "day touched" has to earn it.
     per_day = {}
     for turn, (lab, n) in zip(user, auth["labels"]):
         if lab not in ("authored", "own_voice") or not turn.get("time"):
             continue
-        day = dt.datetime.fromtimestamp(turn["time"]).strftime("%Y-%m-%d")
-        per_day[day] = per_day.get(day, 0) + n
+        d = day(turn["time"])
+        per_day[d] = per_day.get(d, 0) + n
     content_days = sum(1 for n in per_day.values() if n >= CONTENT_DAY_WORDS)
 
     uw = words(user)
@@ -450,6 +529,7 @@ def metrics(turns):
         "authored_words": aw,
         "own_voice_words": auth["own_voice_words"],
         "pasted_words": auth["pasted_words"],
+        "echoed_words": auth["echoed_words"],
         "authored_turns": auth["authored_turns"],
         "max_user_turn_words": auth["max_user_turn_words"],
         "avg_authored_turn_words": (round(aw / auth["authored_turns"], 1)
@@ -509,6 +589,19 @@ ME_TURN = re.compile(r"^## Me\n(.*?)(?=^## Me$|^### ChatGPT$|\Z)", re.S | re.M)
 FRONTMATTER = re.compile(r"\A---\n.*?\n---\n", re.S)
 
 
+SPEAKER = re.compile(r"(?m)^(## Me|### ChatGPT)$")
+
+
+def dialogue_from_markdown(path):
+    """Return [{"role", "text"}] for every turn of a parsed conversation file."""
+    with io.open(path, encoding="utf-8") as fh:
+        body = FRONTMATTER.sub("", fh.read())
+    segs = SPEAKER.split(body)
+    return [{"role": "user" if segs[i] == "## Me" else "assistant",
+             "text": segs[i + 1].strip()}
+            for i in range(1, len(segs) - 1, 2) if segs[i + 1].strip()]
+
+
 def turns_from_markdown(path):
     """Return the user turns of a parsed conversation file, in order."""
     with io.open(path, encoding="utf-8") as fh:
@@ -528,7 +621,7 @@ def slug(title, n=60):
 
 def render(convo, turns, meta):
     created = convo.get("create_time")
-    date = dt.datetime.fromtimestamp(created).strftime("%Y-%m-%d") if created else "unknown"
+    date = day(created) if created else "unknown"
     fm = {
         "title": convo.get("title") or "Untitled",
         "date": date,
@@ -574,7 +667,7 @@ def run(export, cfg, out=None, limit=0, min_user_words=None):
             continue
 
         created = convo.get("create_time")
-        date = dt.datetime.fromtimestamp(created).strftime("%Y-%m-%d") if created else "0000-00-00"
+        date = day(created) if created else "0000-00-00"
         base = f"{date}-{slug(convo.get('title'))}"
         seen_names[base] = seen_names.get(base, 0) + 1
         if seen_names[base] > 1:
@@ -586,6 +679,7 @@ def run(export, cfg, out=None, limit=0, min_user_words=None):
 
         index.append({
             "file": fname,
+            "conversation_id": convo.get("conversation_id") or convo.get("id") or "",
             "title": convo.get("title") or "Untitled",
             "date": date,
             "create_time": created,
@@ -609,7 +703,8 @@ def run(export, cfg, out=None, limit=0, min_user_words=None):
     print(f"parsed   {len(index)} -> {conv_dir}")
     print(f"skipped  {empty} empty, {short} under {floor} user words")
     print(f"authored {aw:,} of {uw:,} user words ({(aw / uw * 100) if uw else 0:.1f}%); "
-          f"{sum(r['pasted_words'] for r in index):,} pasted/clicked/quiz")
+          f"{sum(r['pasted_words'] for r in index):,} pasted/clicked/quiz, "
+          f"{sum(r['echoed_words'] for r in index):,} echoed")
     print(f"flagged  {course} coursework, {own} with own-voice memos, "
           f"{pairs} branch duplicates")
     if accounted != len(convos):

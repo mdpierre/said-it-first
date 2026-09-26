@@ -35,7 +35,7 @@ import re
 import sys
 
 from . import config as cfgmod
-from . import parse
+from . import ledger, parse
 
 # Fields parse adds that the score depends on.
 NEW_FIELDS = ("authored_words", "own_voice_words", "max_user_turn_words",
@@ -141,11 +141,13 @@ def rescan(rows, archive_dir):
         path = os.path.join(conv_dir, row["file"])
         if not os.path.exists(path):
             continue
-        texts = parse.turns_from_markdown(path)
-        auth = parse.authorship(texts)
+        dialogue = parse.dialogue_from_markdown(path)
+        texts = [t["text"] for t in dialogue if t["role"] == "user"]
+        auth = parse.authorship(texts, parse.previous_assistant(dialogue))
         row["authored_words"] = auth["authored_words"]
         row["own_voice_words"] = auth["own_voice_words"]
         row["pasted_words"] = auth["pasted_words"]
+        row["echoed_words"] = auth["echoed_words"]
         row["authored_turns"] = auth["authored_turns"]
         row["max_user_turn_words"] = auth["max_user_turn_words"]
         row["avg_authored_turn_words"] = (
@@ -179,7 +181,21 @@ def score_all(rows, cfg, today=None):
     return scored
 
 
-def render(scored, cfg, top_n, total_rows):
+def apply_ledger(scored, cfg, include_reviewed=False):
+    """Drop conversations already reviewed; keep and mark ones continued since."""
+    led = ledger.load(cfg)
+    kept, skipped = [], 0
+    for r in scored:
+        st = ledger.state(led, r)
+        r["review_state"] = st
+        if st == "reviewed" and not include_reviewed:
+            skipped += 1
+            continue
+        kept.append(r)
+    return kept, skipped
+
+
+def render(scored, cfg, top_n, total_rows, skipped=0):
     style = cfg["output"]["link_style"]
     shortlist_dir = os.path.dirname(cfg["paths"]["shortlist"])
     rel = os.path.relpath(os.path.join(cfg["paths"]["archive"], "conversations"),
@@ -193,7 +209,8 @@ def render(scored, cfg, top_n, total_rows):
         "# Review Shortlist",
         "",
         f"*Generated {dt.date.today().isoformat()} from {total_rows} conversations "
-        f"({total_rows - len(scored)} branch duplicates dropped). "
+        f"({total_rows - len(scored) - skipped} branch duplicates dropped, "
+        f"{skipped} already reviewed skipped). "
         "Ranked on the proxy: did this change what I think?*",
         "",
         "**Columns.** `My words` counts authored words only: pastes, quiz picks "
@@ -215,6 +232,8 @@ def render(scored, cfg, top_n, total_rows):
         topics = ", ".join(r["topics"]) or "-"
         if r.get("coursework"):
             topics = (topics + " *(coursework)*").strip()
+        if r.get("review_state") == "continued":
+            topics += " *(continued since review)*"
         lines.append(
             f"| [ ] | {r['score']} | {r['date']} | {warn} | "
             f"{r['authored_words']} | {r['own_voice_words'] or ''} | "
@@ -283,14 +302,13 @@ def render(scored, cfg, top_n, total_rows):
     return "\n".join(lines) + "\n", len(top), len(deltas_in_top)
 
 
-def run(cfg, top_n=None, out=None, force=False, do_rescan=False):
+def run(cfg, top_n=None, out=None, force=False, do_rescan=False,
+        include_reviewed=False):
     parse.configure(cfg)
-    index_path = os.path.join(cfg["paths"]["archive"], "index.json")
     out = out or cfg["paths"]["shortlist"]
     top_n = top_n or cfg["rank"]["top"]
 
-    with io.open(index_path, encoding="utf-8") as fh:
-        rows = json.load(fh)
+    rows = ledger.load_index(cfg)
 
     stale = [f for f in NEW_FIELDS if rows and f not in rows[0]]
     if do_rescan or stale:
@@ -302,8 +320,8 @@ def run(cfg, top_n=None, out=None, force=False, do_rescan=False):
         if n == 0:
             sys.exit("no conversation files found; re-run parse")
 
-    scored = score_all(rows, cfg)
-    text, n_top, n_delta = render(scored, cfg, top_n, len(rows))
+    scored, skipped = apply_ledger(score_all(rows, cfg), cfg, include_reviewed)
+    text, n_top, n_delta = render(scored, cfg, top_n, len(rows), skipped)
 
     if os.path.exists(out) and not force:
         sys.exit(f"{out} already exists and may be mid-review. "
@@ -314,8 +332,10 @@ def run(cfg, top_n=None, out=None, force=False, do_rescan=False):
         fh.write(text)
 
     course = sum(1 for r in scored if r.get("coursework"))
+    cont = sum(1 for r in scored if r.get("review_state") == "continued")
     print(f"scored    {len(scored)} conversations ({course} coursework, "
-          f"{len(rows) - len(scored)} branch duplicates dropped)")
+          f"{len(rows) - len(scored) - skipped} branch duplicates dropped)")
+    print(f"ledger    {skipped} already reviewed skipped, {cont} continued since review")
     print(f"shortlist {out} (top {n_top}, {n_delta} delta candidates in it)")
     return scored
 
@@ -329,8 +349,11 @@ def main(argv=None):
                     help="recompute authorship from conversations/*.md")
     ap.add_argument("--force", action="store_true",
                     help="overwrite an existing shortlist")
+    ap.add_argument("--include-reviewed", action="store_true",
+                    help="don't skip conversations recorded in the ledger")
     args = ap.parse_args(argv)
-    run(cfgmod.load(args.config), args.top, args.out, args.force, args.rescan)
+    run(cfgmod.load(args.config), args.top, args.out, args.force, args.rescan,
+        args.include_reviewed)
 
 
 if __name__ == "__main__":

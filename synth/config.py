@@ -29,6 +29,7 @@ DEFAULTS = {
         "staging": "workspace/staging",     # model drafts wait here for your tick
         "shortlist": "workspace/SHORTLIST.md",
         "notes": "workspace/notes",         # where approved notes are written
+        "ledger": "workspace/ledger.json",  # conversations already reviewed
         "profile": "profile.md",            # who you are now; the agents read it
     },
 
@@ -40,6 +41,9 @@ DEFAULTS = {
 
     "parse": {
         "min_user_words": 50,
+        # IANA zone for calendar dates ("America/New_York"). Empty = this
+        # machine's local zone. Set it so dates don't shift between machines.
+        "timezone": "",
         # Extra third-party markers for platforms you pasted from (your LMS,
         # your employer's intranet...). Case-insensitive regex fragments.
         "extra_paste_markers": [],
@@ -47,6 +51,14 @@ DEFAULTS = {
         "extra_coursework_markers": [],
         # Extra phrasings you use when pasting your OWN dictated notes.
         "extra_own_voice_preambles": [],
+    },
+
+    "voice": {
+        # Tokens per reading chunk. One chunk-reader agent reads one chunk,
+        # so this must fit comfortably in your model's context with room to
+        # think and write: ~150k suits a 1M window at a steady pace, ~60k a
+        # 200k window.
+        "chunk_tokens": 60000,
     },
 
     "rank": {

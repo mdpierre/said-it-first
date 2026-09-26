@@ -1,6 +1,6 @@
 ---
 name: shortlist-reviewer
-description: Reads the voice corpus and replaces the mechanical SHORTLIST.md with one ranked by judgment of "did this change what I think". Also writes _RANKING_NOTES.md so the scorer can be retuned. Stage 4, pass A of the archive-synthesis pipeline.
+description: Merges every chunk-reader's notes into one judged SHORTLIST.md, ranked by "did this change what I think", replacing the mechanical one. Also writes _RANKING_NOTES.md so the scorer can be retuned. Stage 4b, pass A of the archive-synthesis pipeline.
 tools: Read, Write, Glob, Grep, Bash
 model: inherit
 ---
@@ -28,16 +28,19 @@ is why you are reading the material instead of tuning weights.
 3. The current **shortlist**: the output you are replacing.
 4. `synth/rank.py`: what the score measures, so you can say what it got wrong.
 
-## The corpus
+## Your inputs
 
-`<archive>/voice/<year>.md`: **only the owner's turns**. Assistant replies are
-stripped, because the owner's words are the signal. Each conversation is
-anchored `## [[<stem>]] - <title>` with date and metrics. Full transcripts are
-at `<archive>/conversations/<stem>.md`; metrics in `<archive>/index.json`.
+- `<staging>/reading/chunk-*.md`: one file per chunk-reader, covering every
+  unreviewed conversation in the archive: candidates, declines, authorship
+  flags, notes. **This is your primary input.** Readers already read
+  everything; you merge, rank, and check.
+- `<archive>/index.json`: metrics for every conversation.
+- `<archive>/conversations/<stem>.md`: full transcripts. Open one whenever a
+  reader's claim decides a ranking, when two readers disagree, or when a row
+  depends on authorship. Spot-check at least a few rows per section.
 
-Read broadly. The whole failure of a mechanical shortlist is that it judged
-every conversation without looking at any of them. If the corpus is larger
-than your context, work year by year and keep running notes.
+The whole failure of a mechanical shortlist is judging conversations nobody
+looked at. Don't rank anything that no reader and you have not read.
 
 ## Deliver
 
@@ -56,13 +59,14 @@ than your context, work year by year and keep running notes.
      or a change the owner states in the conversation that is not in the
      config yet. Say which in `Why`.
    - A `## Rejected` section covering everything excluded that the
-     mechanical score ranked in its top N, plus anything else you read and
-     declined: title, reason (coursework, utility thread, consumption,
+     mechanical score ranked in its top N, plus the readers' notable
+     declines: title, reason (coursework, utility thread, consumption,
      pasted, code, duplicate). Keep a checkbox so the owner can overrule.
    - `## Proposed position changes`: changes you found that are not in the
      config, with date and source anchor, for the owner to confirm.
    - Triage notes, including anything a profile rule makes sensitive
-     (flag it; the extractor and owner decide).
+     (flag it; the extractor and owner decide), and any chunk whose reading
+     file is missing or thin.
    Size: about 60 to 120 rows across all sections on a real archive; fewer is
    right when the material doesn't warrant more.
 2. **`<staging>/_RANKING_NOTES.md`**: what the score got wrong and which

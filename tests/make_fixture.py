@@ -17,7 +17,10 @@ OUT = os.path.join(HERE, "..", "examples", "sample-export", "conversations.json"
 
 
 def ts(date, hour=12, minute=0):
-    return dt.datetime(*map(int, date.split("-")), hour, minute).timestamp()
+    # UTC, so the fixture is byte-identical wherever it is generated. Parse it
+    # with `timezone = "UTC"` to get the dates written here.
+    return dt.datetime(*map(int, date.split("-")), hour, minute,
+                       tzinfo=dt.timezone.utc).timestamp()
 
 
 def convo(title, turns):

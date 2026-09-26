@@ -20,7 +20,7 @@ sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "tests"))
 
 import make_fixture  # noqa: E402
-from synth import config, parse, rank, verify, voice  # noqa: E402
+from synth import config, ledger, parse, promote, rank, verify, voice  # noqa: E402
 
 
 def quiet(fn, *a, **kw):
@@ -38,6 +38,7 @@ class Pipeline(unittest.TestCase):
         cfg = copy.deepcopy(config.DEFAULTS)
         cfg["paths"] = {k: os.path.join(cls.tmp, os.path.basename(v))
                         for k, v in cfg["paths"].items()}
+        cfg["parse"]["timezone"] = "UTC"
         cfg["volatile"] = ["career", "business"]
         cfg["position_changes"] = [{"date": "2024-06-01", "topic": "career",
                                     "what": "dropped the founder plan"}]
@@ -86,6 +87,15 @@ class Pipeline(unittest.TestCase):
         self.assertLess(r["authored_words"], 40)
         self.assertGreater(r["pasted_words"], 40)
 
+    def test_echoed_words_not_credited(self):
+        # "Yes exactly, <assistant's sentence>" is not authored thinking.
+        r = self.all_rows["Borrowed ambition"]
+        self.assertGreaterEqual(r["echoed_words"], 12)  # the 13-word phrase
+        self.assertEqual(self.all_rows["Rethinking the founder plan"]["echoed_words"], 0)
+
+    def test_conversation_id_in_index(self):
+        self.assertTrue(all(r["conversation_id"] for r in self.index))
+
     def test_routine_thread_content_days(self):
         r = self.all_rows["Daily check-in"]
         self.assertGreaterEqual(r["days_touched"], 7)
@@ -95,7 +105,8 @@ class Pipeline(unittest.TestCase):
 
     def _voice_text(self):
         d = os.path.join(self.cfg["paths"]["archive"], "voice")
-        return "".join(verify._read(os.path.join(d, f)) for f in os.listdir(d))
+        return "".join(verify._read(os.path.join(d, f)) for f in os.listdir(d)
+                       if f.endswith(".md"))
 
     def test_voice_has_no_assistant_text(self):
         self.assertNotIn("The first list is about expression", self._voice_text())
@@ -105,6 +116,18 @@ class Pipeline(unittest.TestCase):
         v = self._voice_text()
         self.assertIn("Travel more, write every week", v)
         self.assertIn("Get promoted, buy a nicer car", v)
+
+    def test_chunks_split_and_complete(self):
+        d = os.path.join(self.cfg["paths"]["archive"], "voice")
+        quiet(voice.run, self.cfg, chunk_tokens=400)
+        chunks = sorted(f for f in os.listdir(os.path.join(d, "chunks"))
+                        if f.startswith("chunk-"))
+        self.assertGreater(len(chunks), 1)
+        body = "".join(verify._read(os.path.join(d, "chunks", c)) for c in chunks)
+        # every conversation appears exactly once, none split
+        for r in self.index:
+            self.assertEqual(body.count(f"[[{r['file'][:-3]}]]"), 1, r["file"])
+        quiet(voice.run, self.cfg)   # restore default chunking
 
     # --- stage 3: rank ----------------------------------------------------
 
@@ -222,6 +245,127 @@ class Config(unittest.TestCase):
         with contextlib.redirect_stderr(err):
             config.load(os.path.join(ROOT, "chat-synthesis.example.toml"))
         self.assertEqual(err.getvalue(), "")
+
+
+class LedgerAndPromote(unittest.TestCase):
+    """Rerun memory and the promote gate, on a fresh workspace."""
+
+    GOOD = """---
+position-since: 2024-03
+stability: provisional
+source: chatgpt-synthesis
+---
+
+# Ambition as costume
+
+> "I think I was confusing ambition with a specific costume of ambition."
+
+*Sources:* [[2024-03-02-rethinking-the-founder-plan]]
+"""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+        export = os.path.join(self.tmp, "conversations.json")
+        with open(export, "w") as fh:
+            json.dump(make_fixture.CONVERSATIONS, fh)
+        cfg = copy.deepcopy(config.DEFAULTS)
+        cfg["paths"] = {k: os.path.join(self.tmp, os.path.basename(v))
+                        for k, v in cfg["paths"].items()}
+        cfg["parse"]["timezone"] = "UTC"
+        self.cfg = cfg
+        quiet(parse.run, export, cfg)
+        quiet(voice.run, cfg)
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp)
+
+    def _titles(self):
+        return {r["title"]: r for r in quiet(rank.run, self.cfg, force=True)}
+
+    def _stage(self, name, text):
+        d = os.path.join(self.tmp, "staged")
+        os.makedirs(d, exist_ok=True)
+        p = os.path.join(d, name)
+        with open(p, "w") as fh:
+            fh.write(text)
+        return p
+
+    # --- ledger -----------------------------------------------------------
+
+    def test_ticked_rows_skipped_next_run(self):
+        self.assertIn("Rethinking the founder plan", self._titles())
+        sl = self.cfg["paths"]["shortlist"]
+        lines = open(sl).read().split("\n")
+        lines = [l.replace("| [ ] |", "| [x] |", 1)
+                 if "rethinking-the-founder-plan" in l and "branch" not in l else l
+                 for l in lines]
+        with open(sl, "w") as fh:
+            fh.write("\n".join(lines))
+        self.assertGreaterEqual(quiet(ledger.sync, self.cfg), 1)
+        self.assertNotIn("Rethinking the founder plan", self._titles())
+
+    def test_continued_conversation_comes_back(self):
+        quiet(ledger.mark_stems, self.cfg, ["2024-03-02-rethinking-the-founder-plan"], "reviewed")
+        led = ledger.load(self.cfg)
+        for v in led["conversations"].values():
+            v["user_turns"] -= 1          # as if turns were added after review
+        ledger.save(self.cfg, led)
+        r = self._titles()["Rethinking the founder plan"]
+        self.assertEqual(r["review_state"], "continued")
+
+    def test_reviewed_left_out_of_chunks(self):
+        quiet(ledger.mark_stems, self.cfg, ["2024-03-02-rethinking-the-founder-plan"], "reviewed")
+        quiet(voice.run, self.cfg)
+        d = os.path.join(self.cfg["paths"]["archive"], "voice")
+        body = "".join(verify._read(os.path.join(d, "chunks", c))
+                       for c in os.listdir(os.path.join(d, "chunks")))
+        self.assertNotIn("[[2024-03-02-rethinking-the-founder-plan]]", body)
+        self.assertIn("[[2024-03-02-rethinking-the-founder-plan]]",
+                      verify._read(os.path.join(d, "2024.md")))
+
+    def test_include_reviewed_flag(self):
+        quiet(ledger.mark_stems, self.cfg, ["2024-03-02-rethinking-the-founder-plan"], "reviewed")
+        rows = quiet(rank.run, self.cfg, force=True, include_reviewed=True)
+        self.assertIn("Rethinking the founder plan", {r["title"] for r in rows})
+
+    # --- promote ----------------------------------------------------------
+
+    def _notes(self):
+        d = self.cfg["paths"]["notes"]
+        return sorted(os.listdir(d)) if os.path.isdir(d) else []
+
+    def test_good_note_promoted_and_ledgered(self):
+        p = self._stage("ambition-as-costume.md", self.GOOD)
+        self.assertEqual(quiet(promote.run, self.cfg, [p]), 0)
+        self.assertEqual(self._notes(), ["ambition-as-costume.md"])
+        statuses = {v["status"] for v in ledger.load(self.cfg)["conversations"].values()}
+        self.assertEqual(statuses, {"promoted"})
+
+    def test_note_failing_verify_refused(self):
+        bad = self.GOOD.replace("I think I was confusing ambition with a specific costume of ambition.",
+                                "I realized I had mistaken ambition for one particular costume of it.")
+        p = self._stage("bad.md", bad)
+        self.assertEqual(quiet(promote.run, self.cfg, [p]), 1)
+        self.assertEqual(self._notes(), [])
+
+    def test_note_without_sources_refused(self):
+        p = self._stage("nosrc.md", self.GOOD.replace("*Sources:*", "See also:"))
+        self.assertEqual(quiet(promote.run, self.cfg, [p]), 1)
+
+    def test_note_citing_missing_conversation_refused(self):
+        p = self._stage("ghost.md", self.GOOD + "*Sources:* [[2020-01-01-never-happened]]\n")
+        self.assertEqual(quiet(promote.run, self.cfg, [p]), 1)
+
+    def test_existing_note_needs_replace(self):
+        p = self._stage("ambition-as-costume.md", self.GOOD)
+        quiet(promote.run, self.cfg, [p])
+        self.assertEqual(quiet(promote.run, self.cfg, [p]), 1)
+        self.assertEqual(quiet(promote.run, self.cfg, [p], replace=True), 0)
+
+    def test_check_only_writes_nothing(self):
+        p = self._stage("ambition-as-costume.md", self.GOOD)
+        self.assertEqual(quiet(promote.run, self.cfg, [p], check_only=True), 0)
+        self.assertEqual(self._notes(), [])
 
 
 if __name__ == "__main__":

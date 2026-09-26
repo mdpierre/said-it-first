@@ -36,7 +36,6 @@ import glob
 import io
 import os
 import re
-import unicodedata
 
 from . import config as cfgmod
 from . import parse
@@ -72,12 +71,7 @@ def _read(path):
         return fh.read()
 
 
-def norm(s):
-    s = unicodedata.normalize("NFKC", s)
-    for a, b in [("‘", "'"), ("’", "'"), ("“", '"'), ("”", '"'),
-                 ("–", "-"), ("—", "-"), ("…", "...")]:
-        s = s.replace(a, b)
-    return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]+", " ", s.lower())).strip()
+norm = parse.norm
 
 
 def segments(q):
@@ -87,8 +81,7 @@ def segments(q):
 
 
 def ngrams(text, n=ECHO_NGRAM):
-    w = text.split()
-    return {" ".join(w[i:i + n]) for i in range(len(w) - n + 1)}
+    return parse.ngrams(text, n)
 
 
 def load_turns(archive):

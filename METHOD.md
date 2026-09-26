@@ -124,6 +124,17 @@ that says "none cleaned" can't accidentally excuse a paraphrase. Every one of
 these has a regression test. The lesson generalizes: **test the checker the
 same way you test what it checks.**
 
+Echoes also count in the score now: words in a user turn that sit inside an
+8+ word run from the preceding assistant turn are `echoed`, not authored. On
+the reference archive that withheld 4,283 words across 165 conversations.
+
+### 3c. Instructions don't hold a gate; code does
+
+The notes that reached the folder with assistant-written lines had passed
+through a supervised, instruction-following process. `synth promote` is now
+the only door into the notes folder, and it refuses a note that fails
+verification, lacks provenance, or cites a conversation that doesn't exist.
+
 ### 4. A silent bug dropped a quarter of the corpus
 
 Frontmatter was stripped with `body.split("\n---\n", 2)[-1]`. Any conversation
@@ -174,6 +185,23 @@ that led to them.
 
 ---
 
+## Built to run twice
+
+A second export contains the whole history again. The **ledger** records
+every conversation you dispositioned (keyed by ChatGPT's conversation id,
+stable across exports), so the next run reads only new conversations, plus
+any you added turns to since review. Its first real entries were the 123
+conversations dispositioned in the reference run.
+
+## Any archive size
+
+The reference corpus was ~1M tokens of the owner's words alone, which fits a
+single long-context read and nothing smaller. The voice stage now also writes
+chronological **chunks** sized to a token budget; one `chunk-reader` agent
+reads each, in parallel, and writes structured notes (candidates, dated
+position statements, declines). The shortlist and delta agents merge those
+notes and open only the transcripts they need.
+
 ## Yield, honestly
 
 Voice memos and personal reflection produced the most notes per word read.
@@ -189,9 +217,6 @@ not thinking. Low yield from a section is a result, not a failure.
   `synth stats` on yours first.
 - Topic routing needs a model or embedding pass to go much past a third of
   conversations.
-- Echoed words still count as authored in the *score* (verify catches them
-  in quotes, rank doesn't). A user turn that repeats 8+ words of the
-  preceding assistant turn could be scored as `echoed`.
 - `verify` checks quotes of 40+ characters only.
 - ChatGPT exports only, for now. The pipeline is shaped for other sources
   (a sibling adapter for a Discord export was built on the same pattern); a

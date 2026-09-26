@@ -1,0 +1,29 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Fixture is up to date
+        run: |
+          python tests/make_fixture.py
+          git diff --exit-code examples/sample-export/
+      - name: Unit tests
+        run: python -m unittest discover tests -v
+      - name: Pipeline smoke run on the sample export
+        run: |
+          printf '[parse]\ntimezone = "UTC"\n' > chat-synthesis.toml
+          python -m synth run examples/sample-export
+          python -m synth ledger show
+          python -m synth verify --dir workspace/staging || true

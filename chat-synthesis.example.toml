@@ -19,12 +19,14 @@ staging   = "workspace/staging"      # model drafts wait here for your review
 shortlist = "workspace/SHORTLIST.md"
 notes     = "workspace/notes"        # approved notes land here (point at your vault)
 profile   = "profile.md"             # who you are NOW; the agents read it first
+ledger    = "workspace/ledger.json"  # what you've reviewed; next export skips it
 
 [output]
 link_style = "wikilink"              # or "markdown" if you don't use Obsidian/Logseq
 
 [parse]
 min_user_words = 50
+timezone = ""                        # e.g. "America/New_York"; empty = this machine
 # Platforms you pasted from that the defaults don't know (your school's LMS,
 # your employer's intranet). Regex fragments, case-insensitive.
 extra_paste_markers = []
@@ -32,6 +34,9 @@ extra_coursework_markers = []
 # How YOU introduce your own dictated notes, if not covered by the defaults
 # ("voice memo", "voice note", "here's the transcript", "my journal"...).
 extra_own_voice_preambles = []
+
+[voice]
+chunk_tokens = 60000                 # per reading agent; ~150000 on 1M-context models
 
 [rank]
 top = 60

@@ -13,10 +13,11 @@ Built on and tested against a real 4,164-conversation archive. See
 [METHOD.md](METHOD.md) for what broke and why each piece exists.
 
 ```
-export  ->  parse  ->  voice  ->  rank  ->  read (Claude)  ->  verify  ->  you approve  ->  notes
-           (whose     (your       (triage)   (judgment)        (every       (nothing
-            words?)    turns                                    quote)        skips this)
-                       only)
+export -> parse -> voice -> rank -> read (Claude) -> verify -> you approve -> promote -> notes
+         (whose    (your     (triage) (chunked,      (every     (nothing       (refuses
+          words?)   turns             in parallel)   quote)     skips this)    bad quotes)
+                    only)
+                                   ledger: what you already reviewed is skipped next export
 ```
 
 ## What makes it different
@@ -29,10 +30,16 @@ export  ->  parse  ->  voice  ->  rank  ->  read (Claude)  ->  verify  ->  you a
   not length.
 - **Deltas, not snapshots.** Notes record *Was / Now / Because*, so you can see
   what you thought in 2023, what you think now, and what changed it.
+- **Gated.** `synth promote` is the only way into your notes, and it refuses
+  any note whose quotes fail verification.
 - **Verified.** `synth verify` catches paraphrase in quotation marks, lines
   the assistant coined that you echoed back (even with your words in front),
   and quotes lifted from pastes or clicked suggestions. The model's own
   reports never flagged these.
+- **Built to be run again.** A ledger remembers what you reviewed, so your
+  next export only surfaces what's new (or what you continued since).
+- **Any archive size.** The corpus is split into chunks that parallel reading
+  agents take one at a time, so it works with ordinary context windows.
 - **Local, stdlib-only Python.** No dependencies. The scripts never touch the
   network.
 
@@ -67,13 +74,15 @@ your notes.
 | 1 | `synth parse` | script | one markdown file per conversation + `index.json` |
 | 2 | `synth voice` | script | your turns only, by year (the corpus models read) |
 | 3 | `synth rank` | script | `SHORTLIST.md`, triage by authored words, voice, depth |
-| 4 | reading passes | `shortlist-reviewer`, `delta-reconstructor` agents | judged shortlist, staged deltas |
+| 4a | chunk reading | `chunk-reader` agents, in parallel | reading notes per chunk |
+| 4b | merge | `shortlist-reviewer`, `delta-reconstructor` agents | judged shortlist, staged deltas |
 | 5 | `synth verify` | script | every quote checked against source |
-| 6 | delta review | **you** | approved deltas written as notes |
-| 7 | section loop | `section-extractor` agent + **you** | extraction sheet -> approved notes |
-| 8 | housekeeping | Claude + you | sources, retuned config |
+| 6 | delta review | **you**, then `synth promote` | approved deltas become notes |
+| 7 | section loop | `section-extractor` agent + **you**, then `synth promote` | extraction sheet -> approved notes |
+| 8 | `synth ledger sync` | script | reviewed conversations skipped next export |
 
-Utilities: `synth stats` (calibrate authorship on your archive), `synth paths`.
+Utilities: `synth stats` (calibrate authorship on your archive),
+`synth ledger show`, `synth paths`.
 
 ## Configure
 
@@ -100,9 +109,10 @@ Your archive is about as personal as data gets.
 ## Layout
 
 ```
-synth/                  the pipeline (parse, voice, rank, verify, stats)
+synth/                  the pipeline (parse, voice, rank, verify, promote, ledger, stats)
 .claude/skills/         archive-synthesis: the orchestrator
-.claude/agents/         shortlist-reviewer, delta-reconstructor, section-extractor
+.claude/agents/         chunk-reader, shortlist-reviewer, delta-reconstructor, section-extractor
+.github/workflows/      tests on Python 3.11-3.13
 templates/              note format, extraction sheet, profile
 examples/sample-export/ synthetic export (tests/make_fixture.py builds it)
 tests/                  one test per failure mode in METHOD.md
