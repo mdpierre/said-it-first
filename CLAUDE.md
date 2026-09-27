@@ -1,4 +1,4 @@
-# CLAUDE.md - chat-synthesis
+# CLAUDE.md - said-it-first
 
 A pipeline that turns a ChatGPT export into verified, human-approved notes.
 Read `METHOD.md` before changing anything in `synth/`: most thresholds exist
@@ -16,9 +16,9 @@ because of a specific failure on a real archive.
 
 - Python 3.11+, **stdlib only**. No dependencies.
 - Personal values (topics, dates, platform names, weights) go in the user's
-  `chat-synthesis.toml`, never in code. Code holds only what's true for any
+  `said-it-first.toml`, never in code. Code holds only what's true for any
   archive.
-- **Never commit real archive data.** `workspace/`, `chat-synthesis.toml`,
+- **Never commit real archive data.** `workspace/`, `said-it-first.toml`,
   and `profile.md` are gitignored; tests use the synthetic fixture only. If you
   add a test case, add an invented conversation to `tests/make_fixture.py`.
 - A new failure mode found on a real archive gets: a fix, a fixture

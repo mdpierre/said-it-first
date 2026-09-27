@@ -23,7 +23,7 @@ jobs:
         run: python -m unittest discover tests -v
       - name: Pipeline smoke run on the sample export
         run: |
-          printf '[parse]\ntimezone = "UTC"\n' > chat-synthesis.toml
+          printf '[parse]\ntimezone = "UTC"\n' > said-it-first.toml
           python -m synth run examples/sample-export --strict
           python -m synth ledger show
           python -m synth verify --dir workspace/staging || true

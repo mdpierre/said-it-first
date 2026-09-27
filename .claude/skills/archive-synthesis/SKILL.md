@@ -18,7 +18,7 @@ repo root.
 
 ## Stage 0: setup (first run only)
 
-1. `chat-synthesis.toml` exists? If not, copy `chat-synthesis.example.toml`
+1. `said-it-first.toml` exists? If not, copy `said-it-first.example.toml`
    and ask the owner for: where approved notes should go (`paths.notes`),
    link style, and any known position changes with dates.
 2. Profile exists? If not, copy `templates/profile.example.md` to the profile
@@ -136,7 +136,7 @@ after its date.
 
 - `synth ledger sync` once more, and `synth ledger show` for the owner.
 - If _RANKING_NOTES.md recommends weight or marker changes, show the owner the
-  diff to `chat-synthesis.toml`, apply on approval, and re-run rank to
+  diff to `said-it-first.toml`, apply on approval, and re-run rank to
   `--out` a temp path to compare. Never overwrite a shortlist mid-review.
 
 ## Rules that hold at every stage

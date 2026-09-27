@@ -1,4 +1,4 @@
-# chat-synthesis config. Copy to chat-synthesis.toml (gitignored) and edit.
+# said-it-first config. Copy to said-it-first.toml (gitignored) and edit.
 # Every key is optional; anything left out uses the default in synth/config.py.
 # Paths are relative to this file.
 

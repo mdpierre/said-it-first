@@ -1,13 +1,13 @@
 # personal: never commit
 workspace/
-chat-synthesis.toml
+said-it-first.toml
 profile.md
 *.zip
 conversations-*.json
 
 # ...except the dry run on the synthetic export, which is committed as an example
 !examples/dry-run/workspace/
-!examples/dry-run/chat-synthesis.toml
+!examples/dry-run/said-it-first.toml
 !examples/dry-run/profile.md
 
 __pycache__/

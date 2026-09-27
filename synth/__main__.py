@@ -1,5 +1,5 @@
 """
-chat-synthesis command line.
+said-it-first command line.
 
     python3 -m synth check <export>   validate the export format (parse runs this)
     python3 -m synth parse <export>   stage 1: export -> markdown + index.json
@@ -12,7 +12,7 @@ chat-synthesis command line.
     python3 -m synth run <export>     stages 1-3 in one go
     python3 -m synth paths            print resolved paths (for agents)
 
-All commands take --config PATH (default ./chat-synthesis.toml).
+All commands take --config PATH (default ./said-it-first.toml).
 Stages 4, 6 and 7 are model and human passes; see .claude/skills/.
 """
 

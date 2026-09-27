@@ -274,7 +274,7 @@ class Config(unittest.TestCase):
     def test_example_config_loads_cleanly(self):
         err = io.StringIO()
         with contextlib.redirect_stderr(err):
-            config.load(os.path.join(ROOT, "chat-synthesis.example.toml"))
+            config.load(os.path.join(ROOT, "said-it-first.example.toml"))
         self.assertEqual(err.getvalue(), "")
 
 

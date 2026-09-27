@@ -1,4 +1,4 @@
-# chat-synthesis
+# said-it-first
 
 Turn years of ChatGPT conversations into a record of how your thinking
 changed, without putting the model's words in your mouth.
@@ -85,15 +85,19 @@ Requires Python 3.11+ and [Claude Code](https://claude.com/claude-code) for
 the reading stages.
 
 ```bash
-git clone <this repo> && cd chat-synthesis
+git clone <this repo> && cd said-it-first
 python3 -m unittest discover tests          # tests on a synthetic export
 python3 -m synth run examples/sample-export # try the scripts on fake data
 ```
 
+To see what a complete run produces, from reading notes to promoted notes,
+look at [examples/dry-run/](examples/dry-run/): the whole skill run on the
+sample export for a fictional owner.
+
 Then with your own export (ChatGPT: Settings -> Data controls -> Export data):
 
 ```bash
-cp chat-synthesis.example.toml chat-synthesis.toml
+cp said-it-first.example.toml said-it-first.toml
 cp templates/profile.example.md profile.md    # or let the skill interview you
 claude
 > /archive-synthesis ~/Downloads/<your-export>.zip
@@ -124,9 +128,9 @@ on your archive),
 
 ## Configure
 
-Everything personal lives in `chat-synthesis.toml` (gitignored): your topics,
+Everything personal lives in `said-it-first.toml` (gitignored): your topics,
 dated position changes, platform markers, weights. See
-[chat-synthesis.example.toml](chat-synthesis.example.toml). `profile.md` tells
+[said-it-first.example.toml](said-it-first.example.toml). `profile.md` tells
 the agents who you are now, so they can tell an old position from a current
 one.
 
@@ -153,6 +157,7 @@ synth/                  the pipeline (parse, voice, rank, verify, promote, ledge
 .github/workflows/      tests on Python 3.11-3.13
 templates/              note format, extraction sheet, profile
 examples/sample-export/ synthetic export (tests/make_fixture.py builds it)
+examples/dry-run/       a full run of the skill on it, every stage's output + FINDINGS.md
 tests/                  one test per failure mode in METHOD.md
 ```
 

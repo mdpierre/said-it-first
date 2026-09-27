@@ -5,7 +5,7 @@ A complete run of `/archive-synthesis` (stages 1 to 8) on the synthetic
 A person played Sam in chat and made every approval decision. Nothing here is
 real data. What broke or was unclear is in [FINDINGS.md](FINDINGS.md).
 
-Every command took `--config examples/dry-run/chat-synthesis.toml`.
+Every command took `--config examples/dry-run/said-it-first.toml`.
 `voice.chunk_tokens = 1000` is deliberately tiny so the sample splits into
 3 chunks and exercises parallel chunk-readers.
 
@@ -13,7 +13,7 @@ Every command took `--config examples/dry-run/chat-synthesis.toml`.
 
 | Stage | Who | Files | Counts |
 |---|---|---|---|
-| 0 setup | orchestrator | `chat-synthesis.toml`, `profile.md` | 1 known position change (a 2nd, `business`, added in stage 8) |
+| 0 setup | orchestrator | `said-it-first.toml`, `profile.md` | 1 known position change (a 2nd, `business`, added in stage 8) |
 | 1 parse | `synth parse` | `workspace/archive/conversations/`, `index.json` | 11 in = 10 parsed + 1 skipped; 953 of 1,427 user words authored, 461 pasted/clicked/quiz, 13 echoed; 1 own-voice memo, 1 coursework, 1 branch duplicate |
 | 2 voice | `synth voice` | `workspace/archive/voice/`, `chunks/MANIFEST.md` | 10 conversations, ~2,318 tokens, 3 chunks |
 | 3 rank | `synth rank` | `workspace/SHORTLIST.mechanical.md` | 9 scored, 2 delta candidates |

@@ -212,7 +212,7 @@ stage 8. Full detail in `workspace/staging/_RANKING_NOTES.md`.
 - **E2. The dry-run config's position change is tagged `career`, but the
   founder vocabulary routes only to `business`** (`synth/config.py:96-97`).
   So the dated change never reached "Borrowed ambition". A config lesson worth
-  a line in `chat-synthesis.example.toml`: tag a change with every topic its
+  a line in `said-it-first.example.toml`: tag a change with every topic its
   conversations actually route to.
 - **E3. "want" is a stop word** (`synth/parse.py:364`), and the `self` topic
   matched nothing here. The self material is phrased in wanting words.

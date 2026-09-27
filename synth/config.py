@@ -1,12 +1,12 @@
 """
-Load chat-synthesis.toml and merge it over the defaults.
+Load said-it-first.toml and merge it over the defaults.
 
 Everything that is about *you* (topics, dated position changes, platform
 markers specific to your school or job, weights you retuned) lives in the
 config file. The code only holds what should be true for anyone's archive.
 
 Resolution order for the config path:
-    --config PATH  ->  ./chat-synthesis.toml  ->  built-in defaults
+    --config PATH  ->  ./said-it-first.toml  ->  built-in defaults
 """
 
 import copy
@@ -16,9 +16,9 @@ import sys
 try:
     import tomllib
 except ModuleNotFoundError:  # Python < 3.11
-    sys.exit("chat-synthesis needs Python 3.11+ (for tomllib).")
+    sys.exit("said-it-first needs Python 3.11+ (for tomllib).")
 
-DEFAULT_PATH = "chat-synthesis.toml"
+DEFAULT_PATH = "said-it-first.toml"
 
 DEFAULTS = {
     # Used in headers of generated files. "you" reads fine if left alone.
