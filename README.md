@@ -85,7 +85,7 @@ Requires Python 3.11+ and [Claude Code](https://claude.com/claude-code) for
 the reading stages.
 
 ```bash
-git clone <this repo> && cd said-it-first
+git clone https://github.com/mdpierre/said-it-first && cd said-it-first
 python3 -m unittest discover tests          # tests on a synthetic export
 python3 -m synth run examples/sample-export # try the scripts on fake data
 ```
