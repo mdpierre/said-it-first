@@ -50,9 +50,18 @@ QUOTE_PATTERNS = [
 # Quote content that is structure or code, not a quotation.
 SKIP = ("[[", "source:", "`")
 # Labels only count in their bold form, e.g. **assistant-coined, echoed**.
-# Plain words ("none cleaned", "he pasted it") must not pass a quote.
-def _bold(words):
-    return re.compile(r"\*\*[^*\n]*\b(" + words + r")\b[^*\n]*\*\*", re.I)
+# Plain words ("none cleaned", "he pasted it") must not pass a quote. Bold
+# spans are paired left to right, so the plain text between two bold spans
+# ("**Trap:** he clicked it, see **Why**") is never read as a label.
+BOLD = re.compile(r"\*\*([^*\n]+?)\*\*")
+
+
+class _bold:
+    def __init__(self, words):
+        self.words = re.compile(r"\b(" + words + r")\b", re.I)
+
+    def search(self, text):
+        return any(self.words.search(m.group(1)) for m in BOLD.finditer(text))
 
 
 UNVERIFIABLE = _bold(r"unverifiable")
@@ -114,7 +123,7 @@ def collect_quotes(target):
         for i, line in enumerate(lines):
             # a label may sit on the quote's line, up to 3 lines before it
             # (a lead-in sentence, then a blank line), or on the line after
-            context = " ".join(lines[max(i - 3, 0):i + 2])
+            context = "\n".join(lines[max(i - 3, 0):i + 2])
             for pat in QUOTE_PATTERNS:
                 for q in pat.findall(line):
                     q = q.replace("**", "")
@@ -145,12 +154,15 @@ def check_quote(q, convos):
     # Echoed only if EVERY place you said it was preceded by the assistant
     # saying it. If you said it first anywhere, it is yours, even when the
     # assistant later quoted it back and you repeated it.
+    # A phrase the owner wrote before the assistant repeated it stays theirs.
     echo = None
     for fname, turns, idx, _ in authored:
-        shared = set()
-        for spk, _, text in turns[:idx]:
+        shared, owners = set(), set()
+        for spk, label, text in turns[:idx]:
             if spk == "assistant":
-                shared |= qgrams & ngrams(text)
+                shared |= (qgrams & ngrams(text)) - owners
+            elif label in MINE:
+                owners |= ngrams(text)
         if not shared:
             return "ok", ""
         echo = echo or f"{fname}: \"...{sorted(shared)[0]}...\""

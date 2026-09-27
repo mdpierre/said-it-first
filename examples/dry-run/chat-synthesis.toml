@@ -1,0 +1,31 @@
+# Dry-run config for the fictional owner "Sam". Synthetic data only.
+# Paths are relative to this file.
+
+owner = "Sam"
+volatile = ["career", "business"]
+
+[paths]
+archive   = "workspace/archive"
+staging   = "workspace/staging"
+shortlist = "workspace/SHORTLIST.md"
+notes     = "workspace/notes"
+ledger    = "workspace/ledger.json"
+profile   = "profile.md"
+
+[parse]
+timezone = "UTC"
+
+[voice]
+chunk_tokens = 1000   # deliberately tiny: splits the sample into ~3 chunks
+
+[[position_changes]]
+date  = "2024-03-10"
+topic = "career"
+what  = "stopped aiming at founding a company; asked for the technical lead track"
+
+# Stage 8, approved by the owner: the founder vocabulary routes to `business`,
+# not `career`, so the same dated change is recorded under both topics.
+[[position_changes]]
+date  = "2024-03-10"
+topic = "business"
+what  = "stopped aiming at founding a company; asked for the technical lead track"

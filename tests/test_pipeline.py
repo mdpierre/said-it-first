@@ -93,6 +93,20 @@ class Pipeline(unittest.TestCase):
         self.assertGreaterEqual(r["echoed_words"], 12)  # the 13-word phrase
         self.assertEqual(self.all_rows["Rethinking the founder plan"]["echoed_words"], 0)
 
+    def test_owner_repeating_own_line_not_echoed(self):
+        # The assistant quoted the owner's line back; repeating it is not an echo.
+        self.assertEqual(self.all_rows["Said it first"]["echoed_words"], 0)
+
+    def test_stats_split_matches_parse(self):
+        # Regression (dry run): stats classified turns with code still in
+        # them, so its authored share disagreed with parse on the same archive.
+        from synth import stats
+        words = quiet(stats.run, self.cfg)
+        mine = sum(r["authored_words"] + r["echoed_words"] for r in self.index)
+        self.assertEqual(words["authored"] + words["own_voice"], mine)
+        self.assertEqual(words["pasted"] + words["quiz"] + words["suggestion"],
+                         sum(r["pasted_words"] for r in self.index))
+
     def test_conversation_id_in_index(self):
         self.assertTrue(all(r["conversation_id"] for r in self.index))
 
@@ -181,6 +195,14 @@ class Pipeline(unittest.TestCase):
             '> "I would rather be trusted with hard problems than be the one who owns them"'),
             [("ok", False)])
 
+    def test_owner_said_it_first_then_repeated_with_more_not_echo(self):
+        # Regression (dry run): the owner's line, quoted back by the assistant,
+        # then repeated with a reason added, was flagged as the assistant's.
+        self.assertEqual(self._status(
+            '> "I would rather be trusted with hard problems than be the one who '
+            'owns them, because ownership is mostly admin to me."'),
+            [("ok", False)])
+
     def test_prefixed_echo_flagged(self):
         # Regression: the first verify compared only the opening words, so
         # "Yes exactly, <assistant phrase>" passed as the owner's own line.
@@ -202,6 +224,15 @@ class Pipeline(unittest.TestCase):
             'Quotes below are verbatim, none cleaned.\n\n'
             '> "I realized I had mistaken ambition for one particular costume of it."'),
             [("unsourced", False)])
+
+    def test_plain_word_between_bold_spans_is_not_a_label(self):
+        # Regression (dry run): "**Trap:** ... clicked ... **Why**" paired the
+        # close of one bold span with the open of the next, so the plain word
+        # "clicked" between them counted as a **clicked** label.
+        self.assertEqual(self._status(
+            '**Trap:** turn 3 is where he clicked through, see **Why**\n'
+            '> "Map which of your goals are chosen versus inherited"'),
+            [("not_authored", False)])
 
     def test_quoting_a_clicked_chip_flagged(self):
         self.assertEqual(self._status(

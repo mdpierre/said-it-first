@@ -419,11 +419,13 @@ def ngrams(text, n):
     return {" ".join(w[i:i + n]) for i in range(len(w) - n + 1)}
 
 
-def echo_share(text, prev_assistant):
-    """Fraction of `text`'s words inside runs copied from `prev_assistant`."""
+def echo_share(text, prev_assistant, own_before=frozenset()):
+    """Fraction of `text`'s words inside runs copied from `prev_assistant`.
+    Runs in `own_before` (the owner wrote them first, and the assistant only
+    quoted them back) are not echoes."""
     if not prev_assistant:
         return 0.0
-    grams = ngrams(norm(prev_assistant), ECHO_RUN)
+    grams = ngrams(norm(prev_assistant), ECHO_RUN) - own_before
     toks = norm(text).split()
     if not grams or len(toks) < ECHO_RUN:
         return 0.0
@@ -446,6 +448,7 @@ def authorship(user_texts, prev_assistant=None):
     words = dict.fromkeys(counts, 0)
     echoed = 0
     labels = []
+    own_before = set()   # 8-word runs the owner wrote in earlier turns
     prev_assistant = prev_assistant or [None] * len(user_texts)
     for text, prev in zip(user_texts, prev_assistant):
         # Code pasted inside a message is not prose you wrote. Classify and
@@ -455,7 +458,8 @@ def authorship(user_texts, prev_assistant=None):
         lab = classify_turn(prose)
         n = len(WORD.findall(prose))
         if lab in ("authored", "own_voice"):
-            e = round(n * echo_share(prose, prev))
+            e = round(n * echo_share(prose, prev, own_before))
+            own_before |= ngrams(norm(prose), ECHO_RUN)
             echoed += e
             n -= e
         counts[lab] += 1

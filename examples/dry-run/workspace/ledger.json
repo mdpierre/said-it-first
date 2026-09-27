@@ -1,0 +1,40 @@
+{
+ "conversations": {
+  "01fee4db-9487-56be-bec1-18f1046ab414": {
+   "date": "2026-09-26",
+   "file": "2025-01-15-walk-home-thoughts.md",
+   "status": "promoted",
+   "title": "Walk home thoughts",
+   "user_turns": 2
+  },
+  "14eda9f6-3a9a-57c0-a37a-2646a7069f32": {
+   "date": "2026-09-26",
+   "file": "2024-03-02-rethinking-the-founder-plan.md",
+   "status": "promoted",
+   "title": "Rethinking the founder plan",
+   "user_turns": 3
+  },
+  "329ab36e-98aa-56bd-a57f-82103e1728ad": {
+   "date": "2026-09-26",
+   "file": "2025-05-05-borrowed-ambition.md",
+   "status": "promoted",
+   "title": "Borrowed ambition",
+   "user_turns": 3
+  },
+  "a40b6368-adf8-5ef1-a615-570d30b1d424": {
+   "date": "2026-09-26",
+   "file": "2025-07-01-two-lists.md",
+   "status": "promoted",
+   "title": "Two lists",
+   "user_turns": 1
+  },
+  "cccdb9d0-d314-53ce-b389-e2d4d9d2eaaa": {
+   "date": "2026-09-26",
+   "file": "2025-07-15-said-it-first.md",
+   "status": "promoted",
+   "title": "Said it first",
+   "user_turns": 2
+  }
+ },
+ "version": 1
+}
