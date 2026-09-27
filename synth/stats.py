@@ -32,13 +32,16 @@ def run(cfg, samples=3, seed=0):
     long_turns = []
     for path in glob.glob(os.path.join(archive, "conversations", "*.md")):
         for t in parse.turns_from_markdown(path):
-            lab = parse.classify_turn(t)
-            n = len(parse.WORD.findall(t))
+            # Classify the prose as parse does; fenced code counts as pasted.
+            prose = parse.CODE_FENCE.sub(" ", t)
+            lab = parse.classify_turn(prose)
+            n = len(parse.WORD.findall(prose))
             labels[lab] += 1
             words[lab] += n
+            words["pasted"] += len(parse.WORD.findall(t)) - n
             if n >= parse.LONG_TURN_WORDS:
-                long_turns.append((parse.voice_score(t), lab,
-                                   os.path.basename(path), t))
+                long_turns.append((parse.voice_score(prose), lab,
+                                   os.path.basename(path), prose))
 
     total = sum(words.values()) or 1
     print(f"{len(rows)} conversations, {sum(labels.values())} user turns\n")
@@ -61,6 +64,7 @@ def run(cfg, samples=3, seed=0):
           "Read them: are the 'pasted' ones really someone else's text?\n")
     for s, lab, f, t in rnd.sample(near, min(samples, len(near))):
         print(f"--- {lab} (score {s:.1f}) {f}\n{t[:400]}\n")
+    return words
 
 
 def main(argv=None):

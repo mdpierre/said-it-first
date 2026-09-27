@@ -1,0 +1,35 @@
+--- SHORTLIST.mechanical.md	2026-09-26 20:45:57
++++ stage8/SHORTLIST.rerank.md	2026-09-26 20:45:57
+@@ -12,7 +12,7 @@
+ | [ ] | 11.64 | 2025-07-01 |  | 63 |  | 63 | 1 | 1 | - | [[2025-07-01-two-lists\|Two lists]] |
+ | [ ] | 11.47 | 2024-03-02 | D | 175 |  | 74 | 3 | 3 | career, business | [[2024-03-02-rethinking-the-founder-plan\|Rethinking the founder plan]] |
+ | [ ] | 10.84 | 2025-07-15 |  | 61 |  | 39 | 2 | 1 | - | [[2025-07-15-said-it-first\|Said it first]] |
+-| [ ] | 10.81 | 2025-05-05 | D | 60 |  | 39 | 2 | 1 | business | [[2025-05-05-borrowed-ambition\|Borrowed ambition]] |
++| [ ] | 10.81 | 2025-05-05 |  | 60 |  | 39 | 2 | 1 | business | [[2025-05-05-borrowed-ambition\|Borrowed ambition]] |
+ | [ ] | 7.95 | 2025-04-01 |  | 98 |  | 14 | 7 | 7 | - | [[2025-04-01-daily-check-in\|Daily check-in]] |
+ | [ ] | 7.7 | 2025-06-01 |  | 26 |  | 26 | 1 | 1 | - | [[2025-06-01-parser-bug\|Parser bug]] |
+ | [ ] | 1.21 | 2025-03-01 |  | 18 |  | 16 | 2 | 1 | - *(coursework)* | [[2025-03-01-stats-review\|Stats review]] |
+@@ -22,20 +22,20 @@
+ 
+ ## Delta candidates
+ 
+-**2 in the corpus, 2 of them in the top 9.** Highest-value material for a record of how your thinking changed; lowest-value material for an AI's picture of who you are now. Same conversation, routed two ways.
++**1 in the corpus, 1 of them in the top 9.** Highest-value material for a record of how your thinking changed; lowest-value material for an AI's picture of who you are now. Same conversation, routed two ways.
+ 
+ Do not discard an idea because you no longer believe it. The abandoned positions are what make the evolution legible.
+ 
+ Known position changes (the *now* side is already known, so finding the *was* side mostly completes the delta):
+ 
+ - **2024-03-10** `career` - stopped aiming at founding a company; asked for the technical lead track
++- **2024-03-10** `business` - stopped aiming at founding a company; asked for the technical lead track
+ 
+-Highest-scoring 2 delta candidates. `*` = already in the table above.
++Highest-scoring 1 delta candidates. `*` = already in the table above.
+ 
+ | OK | Score | Date | My words | Volatile topic | Title |
+ |---|---|---|---|---|---|
+ | [ ]* | 11.47 | 2024-03-02 | 175 | career, business | [[2024-03-02-rethinking-the-founder-plan\|Rethinking the founder plan]] |
+-| [ ]* | 10.81 | 2025-05-05 | 60 | business | [[2025-05-05-borrowed-ambition\|Borrowed ambition]] |
+ 
+ ---
+ 
