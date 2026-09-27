@@ -12,7 +12,10 @@ Refuses a note unless:
     wrote in staging: current position on top, history below)
 
 On success it copies the note into paths.notes and records the cited
-conversations as `promoted` in the ledger.
+conversations as pending promotions. They are not skipped yet: `synth ledger
+sync`, run after each section read (stage 7), turns them into `promoted`
+ledger entries once their shortlist row is ticked. A run that stops between the two leaves them in the next
+export's shortlist and chunks instead of silently dropping them.
 
 Why a script and not an instruction: in the reference run, the notes that
 reached the folder with an assistant-written line in them had passed a
@@ -91,7 +94,7 @@ def run(cfg, files, replace=False, check_only=False):
         shutil.copyfile(f, os.path.join(notes, name))
         for s in cited:
             if s in rows:
-                ledger.mark(led, rows[s], "promoted")
+                ledger.pend(led, rows[s], name)
         print(f"promoted {name} -> {notes}  ({len(cited)} source conversations)")
     if not check_only:
         ledger.save(cfg, led)

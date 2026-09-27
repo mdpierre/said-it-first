@@ -370,8 +370,24 @@ source: chatgpt-synthesis
         p = self._stage("ambition-as-costume.md", self.GOOD)
         self.assertEqual(quiet(promote.run, self.cfg, [p]), 0)
         self.assertEqual(self._notes(), ["ambition-as-costume.md"])
-        statuses = {v["status"] for v in ledger.load(self.cfg)["conversations"].values()}
-        self.assertEqual(statuses, {"promoted"})
+        led = ledger.load(self.cfg)
+        self.assertEqual(led["conversations"], {})    # not skipped before stage 7
+        self.assertEqual(len(led["pending"]), 1)
+        self.assertIn("Rethinking the founder plan", self._titles())
+        quiet(ledger.sync, self.cfg)                  # its row is not ticked yet
+        self.assertEqual(ledger.load(self.cfg)["conversations"], {})
+        sl = self.cfg["paths"]["shortlist"]
+        with open(sl) as fh:
+            text = fh.read()
+        with open(sl, "w") as fh:
+            fh.write("\n".join(l.replace("| [ ] |", "| [x] |", 1)
+                               if "rethinking-the-founder-plan" in l else l
+                               for l in text.split("\n")))
+        quiet(ledger.sync, self.cfg)
+        led = ledger.load(self.cfg)
+        self.assertNotIn("pending", led)
+        self.assertEqual({v["status"] for v in led["conversations"].values()}, {"promoted"})
+        self.assertNotIn("Rethinking the founder plan", self._titles())
 
     def test_note_failing_verify_refused(self):
         bad = self.GOOD.replace("I think I was confusing ambition with a specific costume of ambition.",

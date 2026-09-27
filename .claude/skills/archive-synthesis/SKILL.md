@@ -108,7 +108,9 @@ they approve:
    owner's corrections applied.
 3. `python3 -m synth promote <staging>/approved/<note>.md` (add `--replace`
    for a merge). If it refuses, show the owner the reasons; fix or label,
-   then promote again. Never work around a refusal.
+   then promote again. Never work around a refusal. Promote does not mark
+   the cited conversations as done; they stay in the section loop and are
+   recorded when their shortlist row is ticked.
 
 ## Stage 7: section loop
 
@@ -125,7 +127,8 @@ For each section of the reviewed shortlist, in the order the owner picks
    the owner.
 5. Tick the section's rows in the shortlist as *read and dispositioned* (a
    tick does not mean promoted; declined rows count), then
-   `synth ledger sync` so the next export skips them.
+   `synth ledger sync` so the next export skips them. Sync also records the
+   conversations promoted notes cited, once their rows are ticked.
 6. Report: notes new / merged / declined, quotes verified.
 
 The archive lags. If a note would record something as dead or abandoned,

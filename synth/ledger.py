@@ -10,6 +10,11 @@ already read, the second run's shortlist is mostly the first run's. `rank`
 skips ledgered conversations by default, and brings one back (marked
 "continued") if you added turns to it after you reviewed it.
 
+`synth promote` does not write entries directly. It records the conversations
+a promoted note cites under "pending". `sync` turns those into `promoted`
+entries once their shortlist row is ticked (or if they are not on the
+shortlist), so nothing is skipped before the section read has seen it.
+
 Keyed by ChatGPT's conversation_id, which is stable across exports; file
 names are not (a renamed conversation gets a new slug).
 """
@@ -90,6 +95,29 @@ def mark(led, row, status, today=None):
     }
 
 
+def pend(led, row, note):
+    """Record that `note` cites this conversation. `sync` finalizes it."""
+    rec = led.setdefault("pending", {}).setdefault(
+        key(row), {"conversation_id": row.get("conversation_id"),
+                   "file": row["file"], "title": row["title"],
+                   "user_turns": row["user_turns"], "notes": []})
+    if note not in rec["notes"]:
+        rec["notes"].append(note)
+
+
+def finalize(led, hold=(), today=None):
+    """Move pending promotions into the ledger as `promoted`, except those
+    whose file stem is in `hold` (on the shortlist, not ticked yet: the
+    section read has not reached them). Returns how many moved."""
+    pending = led.get("pending", {})
+    done = [k for k, rec in pending.items() if rec["file"][:-3] not in hold]
+    for k in done:
+        mark(led, pending.pop(k), "promoted", today)
+    if not pending:
+        led.pop("pending", None)
+    return len(done)
+
+
 def state(led, row):
     """None (not reviewed), 'reviewed', or 'continued' (turns added since)."""
     rec = led["conversations"].get(key(row))
@@ -111,10 +139,12 @@ def sync(cfg, shortlist=None):
     by_stem = {r["file"][:-3]: r for r in rows}
     led = load(cfg)
     before = len(led["conversations"])
-    ticked, unknown = 0, []
+    ticked, unknown, unticked = 0, [], set()
     with io.open(shortlist, encoding="utf-8") as fh:
         for line in fh:
             if not TICKED.match(line):
+                if line.startswith("|"):
+                    unticked.update(stems_in(line))
                 continue
             for s in stems_in(line):
                 if s in by_stem:
@@ -123,8 +153,12 @@ def sync(cfg, shortlist=None):
                     break
             else:
                 unknown.append(line.strip()[:90])
+    promoted = finalize(led, hold=unticked)
     save(cfg, led)
     print(f"ticked rows  {ticked} recorded as reviewed")
+    print(f"promotions   {promoted} cited conversations recorded as promoted"
+          + (f", {len(led['pending'])} held until their shortlist row is ticked"
+             if led.get("pending") else ""))
     print(f"ledger       {before} -> {len(led['conversations'])} conversations "
           f"({path_of(cfg)})")
     for u in unknown:
@@ -153,6 +187,9 @@ def show(cfg):
     promoted = sum(1 for v in led["conversations"].values() if v["status"] == "promoted")
     print(f"ledger     {path_of(cfg)}")
     print(f"recorded   {len(led['conversations'])} ({promoted} promoted into notes)")
+    if led.get("pending"):
+        print(f"pending    {len(led['pending'])} cited by promoted notes, recorded "
+              "at the next `synth ledger sync`")
     for k in ("unreviewed", "reviewed", "continued"):
         print(f"{k:<10} {counts.get(k, 0)} in the current archive")
 

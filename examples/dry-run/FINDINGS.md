@@ -82,8 +82,10 @@ pasted. `run()` now returns the word counts. Test:
   rows, so after stage 6 the ledger already skipped every conversation the
   section loop had yet to read. If a run stops between stages 6 and 7, the
   next export will never show those rows again. The skill (lines 119-121)
-  treats the ledger as stage 7's job. This is a design question (what should
-  "promoted" skip?), so it is listed, not changed.
+  treats the ledger as stage 7's job.
+  **Fixed:** promote now records cited conversations as pending; `ledger sync`
+  records them as `promoted` only once their shortlist row is ticked (or when
+  they are not on the shortlist).
 - **B6. Stage 7 (lines 108-122) assumes sections are unread.** When stage 6
   already promoted notes built from a section's conversations, the extractor
   can only propose small merges. The extractor handled it ("strike, already
